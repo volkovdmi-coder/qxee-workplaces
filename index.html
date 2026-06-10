@@ -478,6 +478,14 @@ function logout(){isAdmin=false;try{sessionStorage.removeItem("qxee_admin");}cat
 function applyAdminUI(){const a=isAdmin;["editBtn","addBtn","impBtn","pubBtn"].forEach(id=>document.getElementById(id).classList.toggle("hide",!a));const lk=document.getElementById("lockBtn");lk.innerHTML=a?'🔓 Админ ✓ · выйти':'🔑 Войти';lk.classList.toggle("adm",a);}
 
 function download(name,text,type){const b=new Blob([text],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+async function buildPublishedHtml(){const data=JSON.stringify(store).replace(/</g,"\\u003c"),snippet="const INITIAL_STATE = "+data+";";
+  let html="",fallback=false;
+  try{const r=await fetch(location.href,{cache:"no-store"});if(r.ok)html=await r.text();}catch(e){}
+  if(!html||!html.includes("const INITIAL_STATE")){fallback=true;html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;}
+  const re=/const INITIAL_STATE\s*=\s*[\s\S]*?;\s*const STATUSES=/;
+  if(re.test(html))html=html.replace(re,snippet+"\nconst STATUSES=");
+  else html=html.replace("</script>",snippet+"\n</script>");
+  return{snippet,html,fallback};}
 document.getElementById("expBtn").onclick=()=>download(`qxee_assets_${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({v:4,saved:new Date().toISOString(),store},null,2),"application/json");
 document.getElementById("csvBtn").onclick=()=>{const head=["ПК","Сотрудник","Кабинет","Роль","Статус","Балл","Приоритет","CPU","Сокет","ОЗУ_ГБ","Видеокарта","Диски","ОС","Апгрейд","Стоимость_₽","Проверка","Заметка"];const lines=[head.join(";")];
   UNITS.forEach(u=>{const inv=u.inv||{},s=store[u.pc]||{},st=eff(u),p=sPos(u),t=sTag(u);const ssd=(inv.disks||[]).filter(d=>d.kind==="SSD").reduce((a,d)=>a+d.gb,0),hdd=(inv.disks||[]).filter(d=>d.kind==="HDD").reduce((a,d)=>a+d.gb,0);
@@ -490,12 +498,13 @@ function exportPlanCsv(){const head=["ПК","Сотрудник","Балл_се�
   lines.push(`"ИТОГО";"";"";"";"";"";"${tot}";""`);download(`qxee_plan_${new Date().toISOString().slice(0,10)}.csv`,"\ufeff"+lines.join("\n"),"text/csv");}
 document.getElementById("impBtn").onclick=()=>{if(!isAdmin)return;document.getElementById("impFile").click();};
 document.getElementById("impFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);store=d.store||d;mergeAdded();recompute();persist();renderAll();alert("Импорт выполнен.");}catch(err){alert("Ошибка: "+err.message);}};rd.readAsText(f);};
-document.getElementById("pubBtn").onclick=()=>{if(!isAdmin)return;const snippet="const INITIAL_STATE = "+JSON.stringify(store)+";";
+document.getElementById("pubBtn").onclick=async()=>{if(!isAdmin)return;const built=await buildPublishedHtml(),snippet=built.snippet;
   document.getElementById("modalArea").innerHTML=`<div class="modal on"><div class="mc"><div class="mh"><h3>🚀 Опубликовать изменения</h3><button class="close" id="pubClose">×</button></div><div class="mb">
-   <div class="note" style="margin-bottom:10px;line-height:1.6">Правки хранятся в этом браузере. Чтобы их увидели по ссылке:<br>1. Скопируй строку ниже.<br>2. В <b>index.html</b> найди <b>const INITIAL_STATE = {};</b> и замени на эту.<br>3. Закоммить в Git.</div>
+   <div class="note" style="margin-bottom:10px;line-height:1.6">Правки хранятся в этом браузере. Чтобы их увидели все по ссылке:<br>1. Нажми <b>Скачать index.html</b>.<br>2. Загрузи этот файл в GitHub поверх старого <b>index.html</b>.<br>3. Нажми <b>Commit changes</b>.${built.fallback?'<br><b style="color:var(--upgrade)">Внимание:</b> не удалось получить исходный HTML по ссылке, файл собран из текущей страницы. Лучше закрыть карточки/модалки и повторить скачивание.':''}</div>
    <textarea class="fld" rows="7" id="pubTxt" readonly>${escapeHtml(snippet)}</textarea>
-   <div class="row" style="margin-top:10px"><button class="btn p" id="pubCopy">📋 Скопировать</button><button class="btn" id="pubDl">⬇ Скачать .txt</button></div></div></div></div>`;
+   <div class="row" style="margin-top:10px"><button class="btn p" id="pubHtml">⬇ Скачать index.html</button><button class="btn" id="pubCopy">📋 Скопировать данные</button><button class="btn" id="pubDl">⬇ Данные .txt</button></div></div></div></div>`;
   document.getElementById("pubClose").onclick=closeModal;
+  document.getElementById("pubHtml").onclick=()=>download("index.html",built.html,"text/html;charset=utf-8");
   document.getElementById("pubCopy").onclick=()=>{const t=document.getElementById("pubTxt");t.select();try{navigator.clipboard.writeText(snippet);}catch(e){document.execCommand("copy");}document.getElementById("pubCopy").textContent="✓ Скопировано";};
   document.getElementById("pubDl").onclick=()=>download("INITIAL_STATE.txt",snippet,"text/plain");};
 
