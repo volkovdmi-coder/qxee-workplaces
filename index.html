@@ -484,7 +484,7 @@ async function buildPublishedHtml(){const data=JSON.stringify(store).replace(/</
   if(!html||!html.includes("const INITIAL_STATE")){fallback=true;html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;}
   const re=/const INITIAL_STATE\s*=\s*[\s\S]*?;\s*const STATUSES=/;
   if(re.test(html))html=html.replace(re,snippet+"\nconst STATUSES=");
-  else html=html.replace("</script>",snippet+"\n</script>");
+  else html=html.replace("<"+"/script>",snippet+"\n<"+"/script>");
   return{snippet,html,fallback};}
 document.getElementById("expBtn").onclick=()=>download(`qxee_assets_${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({v:4,saved:new Date().toISOString(),store},null,2),"application/json");
 document.getElementById("csvBtn").onclick=()=>{const head=["ПК","Сотрудник","Кабинет","Роль","Статус","Балл","Приоритет","CPU","Сокет","ОЗУ_ГБ","Видеокарта","Диски","ОС","Апгрейд","Стоимость_₽","Проверка","Заметка"];const lines=[head.join(";")];
