@@ -1,0 +1,511 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>QXEE · Карта рабочих мест</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#161c2e;--bg2:#10162a;--panel:#1c2442;--panel2:#222c4c;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--ink:#20283F;--text:#ECEEF6;--muted:#9aa3c2;--muted2:#727b9e;--accent:#7C3AED;--accent2:#6D28D9;--accentSoft:rgba(124,58,237,.18);--ok:#34D399;--watch:#FBBF24;--upgrade:#FB923C;--critical:#F87171;--nodata:#6B7280;--r:14px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1100px 600px at 84% -10%,rgba(124,58,237,.16),transparent 60%),var(--bg);background-attachment:fixed;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(180deg,#000,transparent 90%)}
+.wrap{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:20px 22px 60px}
+h1,h2,h3{font-family:'Unbounded',sans-serif;font-weight:700;letter-spacing:-.01em;margin:0}
+.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#28315a 0%,#1c2340 52%,#141a30 100%);padding:24px 26px 28px;margin-bottom:18px}
+.hero .wire{position:absolute;right:-20px;bottom:-150px;width:560px;max-width:60%;opacity:.5;-webkit-mask-image:radial-gradient(75% 85% at 72% 55%,#000,transparent);mask-image:radial-gradient(75% 85% at 72% 55%,#000,transparent);pointer-events:none}
+.hero .wire svg{width:100%;height:auto;display:block}
+.heroTop{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative;z-index:2}
+.wordmark{font-family:'Unbounded';font-weight:800;font-size:42px;letter-spacing:.01em;color:#fff;display:inline-flex;align-items:center;line-height:1}
+.wordmark .eb{color:var(--accent);border:3.5px solid var(--accent);border-radius:9px;padding:0 5px 4px;margin-left:5px;line-height:.9}
+.tagline{position:relative;z-index:2;font-family:'Unbounded';font-weight:500;font-size:18px;color:#d7daf0;margin-top:20px}
+.herosub{position:relative;z-index:2;font-size:12.5px;color:var(--muted);margin-top:7px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font-family:'Manrope';font-weight:600;font-size:13px;color:var(--text);background:rgba(255,255,255,.06);border:1px solid var(--line2);padding:9px 12px;border-radius:10px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent);color:#fff;transform:translateY(-1px)}
+.btn.p{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent}.btn.p:hover{filter:brightness(1.1)}
+.btn.on{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.btn.ghost{background:none}.hide{display:none!important}
+.lock{font-size:11px;color:var(--watch);font-weight:700;border:1px solid var(--line2);border-radius:20px;padding:6px 11px;display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.lock.adm{color:var(--ok)}
+.profile{background:linear-gradient(90deg,rgba(124,58,237,.16),rgba(124,58,237,.02));border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:11px 15px;margin-bottom:18px;font-size:13px;color:var(--muted);line-height:1.55}
+.profile b{color:var(--text);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;position:relative;overflow:hidden}
+.stat .k{font-family:'Unbounded';font-size:30px;font-weight:700;line-height:1}.stat .l{font-size:12px;color:var(--muted);margin-top:6px;font-weight:600}
+.stat .bar{position:absolute;left:0;top:0;bottom:0;width:4px}
+.stat.click{cursor:pointer;transition:.15s}.stat.click:hover{border-color:var(--line2);transform:translateY(-2px)}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:0 13px}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--text);font-family:'Manrope';font-size:14px;padding:11px 0}
+.search input::placeholder{color:var(--muted2)}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:20px;border:1px solid var(--line2);background:var(--panel);color:var(--muted);cursor:pointer;transition:.15s;display:flex;align-items:center;gap:7px}
+.chip:hover{color:var(--text)}.chip .dot{width:9px;height:9px;border-radius:50%}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:3px}
+.seg button{font-family:'Manrope';font-weight:600;font-size:13px;color:var(--muted);background:none;border:0;padding:8px 14px;border-radius:8px;cursor:pointer}
+.seg button.on{background:var(--accent);color:#fff}
+.mapwrap{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:16px;position:relative;overflow:hidden}
+.maplabel{position:absolute;top:14px;left:18px;font-size:12px;color:var(--muted2);font-weight:600}.maplabel b{color:var(--accent)}
+.map{position:relative;width:100%;aspect-ratio:1340/900;margin-top:26px;touch-action:auto}
+.map.edit{touch-action:none;background:repeating-linear-gradient(0deg,transparent,transparent 33px,rgba(255,255,255,.02) 33px,rgba(255,255,255,.02) 34px),repeating-linear-gradient(90deg,transparent,transparent 33px,rgba(255,255,255,.02) 33px,rgba(255,255,255,.02) 34px);border-radius:10px}
+.room{position:absolute;border:1.5px solid var(--line2);border-radius:12px;background:rgba(255,255,255,.012)}
+.room.empty{border-style:dashed;background:repeating-linear-gradient(45deg,transparent,transparent 9px,rgba(255,255,255,.02) 9px,rgba(255,255,255,.02) 18px)}
+.room .rn{position:absolute;top:-13px;left:14px;background:var(--bg);padding:1px 10px;border:1px solid var(--line2);border-radius:20px;font-family:'Unbounded';font-weight:600;font-size:12.5px;color:var(--muted)}
+.desk{position:absolute;transform:translate(-50%,-50%);width:6.7%;min-width:74px;border-radius:13px;background:var(--panel2);border:1.6px solid var(--line2);cursor:pointer;transition:box-shadow .16s,border-color .16s;padding:9px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 6px 18px -10px rgba(0,0,0,.7);user-select:none}
+.desk:hover{z-index:6;box-shadow:0 14px 30px -12px rgba(0,0,0,.85);border-color:#fff}
+.map.edit .desk{cursor:grab}.map.edit .desk:active{cursor:grabbing}
+.desk .av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:800;color:#fff;position:relative;border:2.5px solid var(--st,var(--nodata));box-shadow:0 0 0 2px var(--bg2)}
+.desk .av .pcb{position:absolute;bottom:-5px;right:-6px;background:var(--bg2);border:1px solid var(--line2);color:var(--text);font-family:'Unbounded';font-weight:700;font-size:9.5px;border-radius:7px;padding:0 4px;line-height:14px}
+.desk .nm{font-size:10.5px;color:var(--text);margin-top:2px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.desk .tg{font-size:8.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accentSoft);border-radius:6px;padding:1px 6px;margin-top:1px;white-space:nowrap}
+.desk.dim{opacity:.16;filter:grayscale(.6)}
+.desk.sel{border-color:#fff;box-shadow:0 0 0 3px var(--accentSoft),0 14px 30px -12px #000}
+.tablewrap,.planwrap{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);font-weight:700;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--panel)}
+th:hover{color:var(--text)}
+tbody tr{transition:.12s}tbody tr:hover{background:rgba(255,255,255,.03)}
+td .pcn{font-family:'Unbounded';font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:20px;background:rgba(255,255,255,.06)}
+.badge .dot{width:8px;height:8px;border-radius:50%}
+.pri{font-family:'Unbounded';font-weight:700;font-size:13px}
+.scrim{position:fixed;inset:0;background:rgba(6,8,14,.6);backdrop-filter:blur(3px);z-index:30;opacity:0;pointer-events:none;transition:.2s}.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(490px,94vw);background:var(--bg2);border-left:1px solid var(--line2);z-index:31;transform:translateX(102%);transition:transform .26s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:-30px 0 60px -20px #000}.drawer.on{transform:translateX(0)}
+.dh{position:sticky;top:0;background:linear-gradient(180deg,var(--panel),rgba(28,36,66,.92));backdrop-filter:blur(6px);padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;z-index:2}
+.dh .pcbig{font-family:'Unbounded';font-weight:800;font-size:22px;display:flex;align-items:center;gap:11px}
+.avbig{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:19px;color:#fff;font-weight:800;border:2.5px solid var(--st)}
+.dh .who{font-size:12.5px;color:var(--muted);margin-top:5px;font-weight:600}
+.close{background:var(--panel);border:1px solid var(--line2);color:var(--text);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:18px;line-height:1}.close:hover{border-color:var(--accent)}
+.db{padding:18px 20px 40px}.sec{margin-bottom:20px}
+.sec h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:10px;font-family:'Manrope';font-weight:700}
+.scorebar{height:10px;border-radius:6px;background:var(--panel);overflow:hidden;margin:6px 0}.scorebar i{display:block;height:100%;border-radius:6px}
+.spec{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:9px}
+.spec .t{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted2);font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between;gap:8px}
+.spec .t .vs{color:var(--ok)}.spec .t .vs.bad{color:var(--critical)}.spec .t .vs.warn{color:var(--upgrade)}
+.spec .m{font-size:14px;font-weight:600}.spec .s{font-size:12px;color:var(--muted);margin-top:3px}
+.statusgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px}
+.sbtn{padding:10px 6px;border-radius:10px;border:1.5px solid var(--line2);background:var(--panel);color:var(--muted);font-weight:700;font-size:12px;cursor:pointer;transition:.14s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.sbtn .dot{width:11px;height:11px;border-radius:50%}.sbtn:hover{color:var(--text)}.sbtn.on{color:#fff}
+textarea,input.fld,select.fld{width:100%;background:var(--panel);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-family:'Manrope';font-size:13.5px;padding:10px 12px;outline:0;resize:vertical}
+textarea:focus,input.fld:focus,select.fld:focus{border-color:var(--accent)}
+.pick{display:flex;gap:6px;flex-wrap:wrap}
+.pick button{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line2);background:var(--panel);font-size:17px;cursor:pointer;display:grid;place-items:center;color:var(--muted);font-weight:700;font-family:'Manrope'}
+.pick button.on{border-color:var(--accent);background:var(--accentSoft)}
+.tagrow{display:flex;gap:7px;flex-wrap:wrap}
+.tagbtn{font-size:12px;font-weight:700;padding:8px 11px;border-radius:9px;border:1.5px solid var(--line2);background:var(--panel);color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px}
+.tagbtn.on{border-color:var(--accent);background:var(--accentSoft);color:#fff}
+.issue{display:flex;gap:9px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--upgrade);border-radius:9px;padding:9px 11px;margin-bottom:7px;font-size:13px}
+.issue.crit{border-left-color:var(--critical)}.issue.info{border-left-color:var(--accent)}.issue.ok{border-left-color:var(--ok)}.issue .ic{font-size:14px}
+.logitem{padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted);font-size:12.5px}.logitem b{color:var(--text);font-weight:600}.logitem .lt{font-size:10.5px;color:var(--muted2)}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.note{font-size:12px;color:var(--muted2)}
+.lnk{background:none;border:0;color:var(--accent);font-size:12px;cursor:pointer;font-weight:600;padding:0}
+.foot{margin-top:28px;font-size:12px;color:var(--muted2);text-align:center;line-height:1.7}
+.savetag{font-size:11px;color:var(--ok);opacity:0;transition:.3s;font-weight:700;align-self:center}.savetag.on{opacity:1}
+.target{background:linear-gradient(180deg,rgba(124,58,237,.12),transparent);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;color:var(--muted)}.target b{color:var(--text)}
+.modal{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:20px}.modal.on{display:flex}
+.modal .mc{background:var(--bg2);border:1px solid var(--line2);border-radius:18px;width:min(560px,96vw);max-height:90vh;overflow:auto;box-shadow:0 40px 80px -20px #000}
+.modal .mh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal .mh h3{font-size:17px}.modal .mb{padding:18px 20px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrid label,.fwide label{font-size:11px;color:var(--muted2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px}.fwide{grid-column:1/-1}
+.planhead{padding:16px 18px;border-bottom:1px solid var(--line)}
+.optrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;align-items:flex-end}
+.opt{display:flex;flex-direction:column;gap:6px;min-width:150px}
+.opt .ol{font-size:11px;color:var(--muted2);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.opt select.fld{padding:8px 10px}
+.presets{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px;padding:16px 18px}
+.pcard{background:var(--panel);border:1px solid var(--line2);border-radius:13px;padding:13px 14px;cursor:pointer;transition:.15s}.pcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pcard .pn{font-weight:700;font-size:13.5px;margin-bottom:8px}.pcard .pm{font-size:12px;color:var(--muted);line-height:1.7}.pcard .pm b{font-family:'Unbounded';font-weight:700}
+.up{color:var(--ok);font-weight:700}
+.totbar{position:sticky;bottom:0;background:linear-gradient(0deg,var(--bg2),rgba(16,22,42,.92));backdrop-filter:blur(6px);border-top:1px solid var(--line2);padding:13px 18px;display:flex;gap:22px;flex-wrap:wrap;align-items:center;z-index:3}
+.totbar .ti{display:flex;flex-direction:column}.totbar .tk{font-family:'Unbounded';font-weight:700;font-size:19px}.totbar .tl{font-size:11px;color:var(--muted2);font-weight:600}
+.cbx{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.ctog{font-size:11px;font-weight:700;padding:5px 8px;border-radius:7px;border:1.5px solid var(--line2);background:var(--panel);color:var(--muted2);cursor:pointer;margin-right:4px;display:inline-block}
+.ctog.on{border-color:var(--accent);background:var(--accentSoft);color:#fff}.ctog.dis{opacity:.3;cursor:not-allowed}
+.cmpi{font-size:14px;cursor:default}
+.compat{padding:14px 18px;border-top:1px solid var(--line)}
+.cprow{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:9px}
+.cprow .ch{font-weight:700;font-size:13px;margin-bottom:7px}.cprow .ch .nb{color:var(--muted);font-weight:600;font-size:12px}
+.cnote{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--muted);margin-bottom:4px;line-height:1.45}
+.cnote .d{width:8px;height:8px;border-radius:50%;margin-top:5px;flex:0 0 auto}
+.plinks{display:inline-flex;gap:4px;margin-left:8px}.plinks a{font-size:10.5px;font-weight:700;color:var(--accent);background:var(--accentSoft);padding:2px 7px;border-radius:6px;text-decoration:none;white-space:nowrap}.plinks a:hover{background:var(--accent);color:#fff}
+.smeta{padding:14px 18px;border-top:1px solid var(--line)}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap}
+.srow .sn{font-weight:600;font-size:13.5px;flex:1}.srow .sq{font-family:'Unbounded';font-weight:700;font-size:14px;min-width:40px;text-align:center}.srow .sp{font-weight:700;min-width:110px;text-align:right}
+.stot{display:flex;justify-content:space-between;padding:13px 0;font-family:'Unbounded';font-weight:700;font-size:18px;border-top:2px solid var(--accent)}
+.gtoggles{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.gtog{font-size:12px;font-weight:700;padding:7px 11px;border-radius:9px;border:1.5px solid var(--line2);background:var(--panel);color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px}.gtog:hover{border-color:var(--accent);color:var(--text)}
+.slotinfo{display:inline-flex;gap:3px;align-items:center;font-size:11px;margin-left:6px}.slotbar{display:inline-flex;gap:2px}.slotbar i{width:12px;height:12px;border-radius:3px;border:1px solid var(--line2)}.slotbar i.used{background:var(--accent);border-color:var(--accent)}.slotbar i.free{background:var(--panel)}
+@media(max-width:680px){.wordmark{font-size:32px}.map{aspect-ratio:1340/1000}.desk{min-width:62px}.desk .av{width:30px;height:30px}.fgrid{grid-template-columns:1fr}.hero .wire{opacity:.3}}
+</style></head><body><div class="wrap">
+<div class="hero"><div class="wire"><svg viewBox="0 0 1120 760" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#8E93E8" stroke-width="1.1" stroke-linecap="round"><line x1="560.0" y1="40.0" x2="560.0" y2="720.0"/><line x1="560.0" y1="40.0" x2="560.0" y2="720.0"/><line x1="387.2" y1="44.8" x2="387.2" y2="616.0"/><line x1="236.0" y1="49.0" x2="236.0" y2="525.0"/><line x1="106.4" y1="52.6" x2="106.4" y2="447.0"/><line x1="-1.6" y1="55.6" x2="-1.6" y2="382.0"/><line x1="-98.8" y1="58.3" x2="-98.8" y2="323.5"/><line x1="-185.2" y1="60.7" x2="-185.2" y2="271.5"/><line x1="560.0" y1="40.0" x2="387.2" y2="44.8"/><line x1="387.2" y1="44.8" x2="236.0" y2="49.0"/><line x1="236.0" y1="49.0" x2="106.4" y2="52.6"/><line x1="106.4" y1="52.6" x2="-1.6" y2="55.6"/><line x1="-1.6" y1="55.6" x2="-98.8" y2="58.3"/><line x1="-98.8" y1="58.3" x2="-185.2" y2="60.7"/><line x1="560.0" y1="108.0" x2="387.2" y2="101.9"/><line x1="387.2" y1="101.9" x2="236.0" y2="96.6"/><line x1="236.0" y1="96.6" x2="106.4" y2="92.0"/><line x1="106.4" y1="92.0" x2="-1.6" y2="88.2"/><line x1="-1.6" y1="88.2" x2="-98.8" y2="84.8"/><line x1="-98.8" y1="84.8" x2="-185.2" y2="81.8"/><line x1="560.0" y1="176.0" x2="387.2" y2="159.0"/><line x1="387.2" y1="159.0" x2="236.0" y2="144.2"/><line x1="236.0" y1="144.2" x2="106.4" y2="131.5"/><line x1="106.4" y1="131.5" x2="-1.6" y2="120.9"/><line x1="-1.6" y1="120.9" x2="-98.8" y2="111.3"/><line x1="-98.8" y1="111.3" x2="-185.2" y2="102.9"/><line x1="560.0" y1="244.0" x2="387.2" y2="216.2"/><line x1="387.2" y1="216.2" x2="236.0" y2="191.8"/><line x1="236.0" y1="191.8" x2="106.4" y2="170.9"/><line x1="106.4" y1="170.9" x2="-1.6" y2="153.5"/><line x1="-1.6" y1="153.5" x2="-98.8" y2="137.9"/><line x1="-98.8" y1="137.9" x2="-185.2" y2="123.9"/><line x1="560.0" y1="325.6" x2="387.2" y2="284.7"/><line x1="387.2" y1="284.7" x2="236.0" y2="248.9"/><line x1="236.0" y1="248.9" x2="106.4" y2="218.2"/><line x1="106.4" y1="218.2" x2="-1.6" y2="192.7"/><line x1="-1.6" y1="192.7" x2="-98.8" y2="169.7"/><line x1="-98.8" y1="169.7" x2="-185.2" y2="149.2"/><line x1="560.0" y1="414.0" x2="387.2" y2="359.0"/><line x1="387.2" y1="359.0" x2="236.0" y2="310.8"/><line x1="236.0" y1="310.8" x2="106.4" y2="269.5"/><line x1="106.4" y1="269.5" x2="-1.6" y2="235.1"/><line x1="-1.6" y1="235.1" x2="-98.8" y2="204.2"/><line x1="-98.8" y1="204.2" x2="-185.2" y2="176.6"/><line x1="560.0" y1="516.0" x2="387.2" y2="444.6"/><line x1="387.2" y1="444.6" x2="236.0" y2="382.2"/><line x1="236.0" y1="382.2" x2="106.4" y2="328.7"/><line x1="106.4" y1="328.7" x2="-1.6" y2="284.1"/><line x1="-1.6" y1="284.1" x2="-98.8" y2="243.9"/><line x1="-98.8" y1="243.9" x2="-185.2" y2="208.3"/><line x1="560.0" y1="624.8" x2="387.2" y2="536.0"/><line x1="387.2" y1="536.0" x2="236.0" y2="458.4"/><line x1="236.0" y1="458.4" x2="106.4" y2="391.8"/><line x1="106.4" y1="391.8" x2="-1.6" y2="336.3"/><line x1="-1.6" y1="336.3" x2="-98.8" y2="286.4"/><line x1="-98.8" y1="286.4" x2="-185.2" y2="242.0"/><line x1="560.0" y1="720.0" x2="387.2" y2="616.0"/><line x1="387.2" y1="616.0" x2="236.0" y2="525.0"/><line x1="236.0" y1="525.0" x2="106.4" y2="447.0"/><line x1="106.4" y1="447.0" x2="-1.6" y2="382.0"/><line x1="-1.6" y1="382.0" x2="-98.8" y2="323.5"/><line x1="-98.8" y1="323.5" x2="-185.2" y2="271.5"/><line x1="560.0" y1="40.0" x2="560.0" y2="720.0"/><line x1="659.2" y1="44.8" x2="659.2" y2="616.0"/><line x1="746.0" y1="49.0" x2="746.0" y2="525.0"/><line x1="820.4" y1="52.6" x2="820.4" y2="447.0"/><line x1="882.4" y1="55.6" x2="882.4" y2="382.0"/><line x1="938.2" y1="58.3" x2="938.2" y2="323.5"/><line x1="987.8" y1="60.7" x2="987.8" y2="271.5"/><line x1="560.0" y1="40.0" x2="659.2" y2="44.8"/><line x1="659.2" y1="44.8" x2="746.0" y2="49.0"/><line x1="746.0" y1="49.0" x2="820.4" y2="52.6"/><line x1="820.4" y1="52.6" x2="882.4" y2="55.6"/><line x1="882.4" y1="55.6" x2="938.2" y2="58.3"/><line x1="938.2" y1="58.3" x2="987.8" y2="60.7"/><line x1="560.0" y1="108.0" x2="659.2" y2="101.9"/><line x1="659.2" y1="101.9" x2="746.0" y2="96.6"/><line x1="746.0" y1="96.6" x2="820.4" y2="92.0"/><line x1="820.4" y1="92.0" x2="882.4" y2="88.2"/><line x1="882.4" y1="88.2" x2="938.2" y2="84.8"/><line x1="938.2" y1="84.8" x2="987.8" y2="81.8"/><line x1="560.0" y1="176.0" x2="659.2" y2="159.0"/><line x1="659.2" y1="159.0" x2="746.0" y2="144.2"/><line x1="746.0" y1="144.2" x2="820.4" y2="131.5"/><line x1="820.4" y1="131.5" x2="882.4" y2="120.9"/><line x1="882.4" y1="120.9" x2="938.2" y2="111.3"/><line x1="938.2" y1="111.3" x2="987.8" y2="102.9"/><line x1="560.0" y1="244.0" x2="659.2" y2="216.2"/><line x1="659.2" y1="216.2" x2="746.0" y2="191.8"/><line x1="746.0" y1="191.8" x2="820.4" y2="170.9"/><line x1="820.4" y1="170.9" x2="882.4" y2="153.5"/><line x1="882.4" y1="153.5" x2="938.2" y2="137.9"/><line x1="938.2" y1="137.9" x2="987.8" y2="123.9"/><line x1="560.0" y1="325.6" x2="659.2" y2="284.7"/><line x1="659.2" y1="284.7" x2="746.0" y2="248.9"/><line x1="746.0" y1="248.9" x2="820.4" y2="218.2"/><line x1="820.4" y1="218.2" x2="882.4" y2="192.7"/><line x1="882.4" y1="192.7" x2="938.2" y2="169.7"/><line x1="938.2" y1="169.7" x2="987.8" y2="149.2"/><line x1="560.0" y1="414.0" x2="659.2" y2="359.0"/><line x1="659.2" y1="359.0" x2="746.0" y2="310.8"/><line x1="746.0" y1="310.8" x2="820.4" y2="269.5"/><line x1="820.4" y1="269.5" x2="882.4" y2="235.1"/><line x1="882.4" y1="235.1" x2="938.2" y2="204.2"/><line x1="938.2" y1="204.2" x2="987.8" y2="176.6"/><line x1="560.0" y1="516.0" x2="659.2" y2="444.6"/><line x1="659.2" y1="444.6" x2="746.0" y2="382.2"/><line x1="746.0" y1="382.2" x2="820.4" y2="328.7"/><line x1="820.4" y1="328.7" x2="882.4" y2="284.1"/><line x1="882.4" y1="284.1" x2="938.2" y2="243.9"/><line x1="938.2" y1="243.9" x2="987.8" y2="208.3"/><line x1="560.0" y1="624.8" x2="659.2" y2="536.0"/><line x1="659.2" y1="536.0" x2="746.0" y2="458.4"/><line x1="746.0" y1="458.4" x2="820.4" y2="391.8"/><line x1="820.4" y1="391.8" x2="882.4" y2="336.3"/><line x1="882.4" y1="336.3" x2="938.2" y2="286.4"/><line x1="938.2" y1="286.4" x2="987.8" y2="242.0"/><line x1="560.0" y1="720.0" x2="659.2" y2="616.0"/><line x1="659.2" y1="616.0" x2="746.0" y2="525.0"/><line x1="746.0" y1="525.0" x2="820.4" y2="447.0"/><line x1="820.4" y1="447.0" x2="882.4" y2="382.0"/><line x1="882.4" y1="382.0" x2="938.2" y2="323.5"/><line x1="938.2" y1="323.5" x2="987.8" y2="271.5"/></svg></div>
+  <div class="heroTop"><div class="wordmark">QXE<span class="eb">E</span></div>
+    <div class="tools"><span id="savetag" class="savetag">✓ сохранено</span>
+      <button class="btn hide" id="addBtn">➕ ПК</button><button class="btn hide" id="editBtn">🔓 Расставить</button>
+      <button class="btn hide" id="impBtn">⬆ Импорт</button><button class="btn" id="csvBtn">⬇ CSV</button>
+      <button class="btn p hide" id="pubBtn">🚀 Опубликовать</button><button class="btn" id="expBtn">⬇ Бэкап</button>
+      <span class="lock" id="lockBtn">🔑 Войти</span><input type="file" id="impFile" accept="application/json" style="display:none"></div></div>
+  <div class="tagline">Обследование и проектирование зданий и сооружений</div>
+  <div class="herosub">Карта рабочих мест · инвентаризация · 5 этаж</div>
+</div>
+<div class="profile"><b>Профиль парка:</b> инженерная компания — обследование и проектирование зданий. ПО: <b>AutoCAD, Revit, Autodesk ReCap</b>, облака точек до <b>20 ГБ</b>. Цель: <b>ОЗУ 32 ГБ</b>, <b>NVMe 1 ТБ</b>, GPU <b>≥ 8 ГБ</b>, плановый CPU — <b>Ryzen 7 5700X</b>. Приоритет — производительность.</div>
+<div class="stats" id="stats"></div>
+<div class="controls"><div class="search"><span style="color:var(--muted2)">🔎</span><input id="q" placeholder="Поиск: имя, ПК, CPU, видеокарта, ОС, роль…"></div>
+  <div class="chips" id="chips"></div>
+  <div class="seg" id="seg"><button data-v="map" class="on">🗺 Карта</button><button data-v="table">▤ Таблица</button><button data-v="plan">🛠 Апгрейд</button></div></div>
+<div id="mapView" class="mapwrap"><div class="maplabel" id="maplabel">Клик по месту — карточка железа. Вход админа открывает расстановку и редактирование.</div><div class="map" id="map"></div></div>
+<div id="tableView" class="tablewrap" style="display:none"></div>
+<div id="planView" class="planwrap" style="display:none"></div>
+<div class="foot" id="foot"></div></div>
+<div class="scrim" id="scrim"></div><aside class="drawer" id="drawer"></aside><div id="modalArea"></div>
+<script>
+const PCS=[{"pc": 3, "name": "QXEE-PC3", "operator": "QXEE-PC3\\user", "collected": "2026-06-04T16:19:06", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "A520M K V2", "motherboard": "Gigabyte Technology Co., Ltd. A520M K V2 x.x", "bios": "F1", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 4}], "disks": [{"name": "ST1000DM010-2EP102", "gb": 932, "kind": "HDD"}, {"name": "KINGSTON SA400S37240G", "gb": 224, "kind": "SSD"}], "os": "Майкрософт Windows 10 Pro 10.0.19043 64-разрядная", "serial": "Default string"}, {"pc": 4, "name": "QXEE_PC4", "operator": "QXEE_PC4\\user-d.volkov", "collected": "2026-06-02T18:43:52", "manufacturer": "To Be Filled By O.E.M.", "model": "To Be Filled By O.E.M.", "motherboard": "ASRock X299 Steel Legend", "bios": "P1.50", "cpu": "Intel(R) Core(TM) i9-10900X CPU @ 3.70GHz", "ram_gb": 128, "ram": [{"size": 32, "speed": 2400, "brand": "Kingston"}, {"size": 32, "speed": 2400, "brand": "Kingston"}, {"size": 32, "speed": 2400, "brand": "Kingston"}, {"size": 32, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "AMD Radeon RX 6700 XT", "vram": 4}], "disks": [{"name": "Samsung SSD 870 QVO 2TB", "gb": 1863, "kind": "SSD"}, {"name": "Samsung SSD 870 QVO 2TB", "gb": 1863, "kind": "SSD"}, {"name": "Samsung SSD 870 QVO 2TB", "gb": 1863, "kind": "SSD"}, {"name": "Samsung SSD 870 QVO 2TB", "gb": 1863, "kind": "SSD"}, {"name": "Samsung SSD 990 PRO 4TB", "gb": 3726, "kind": "SSD"}, {"name": "Samsung SSD 980", "gb": 500, "kind": "SSD"}, {"name": "WDC WD40EFRX-68WT0N0", "gb": 3726, "kind": "HDD"}], "os": "Майкрософт Windows Server 2022 Datacenter 10.0.20348 64-разрядная", "serial": "To Be Filled By O.E.M."}, {"pc": 5, "name": "QXEE-PC5", "operator": "QXEE-PC5\\И. Чечеткин", "collected": "2026-06-02T18:25:02", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M S2H", "motherboard": "Gigabyte Technology Co., Ltd. B450M S2H x.x", "bios": "F50", "cpu": "AMD Ryzen 5 3500X 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX 560 Series", "vram": 2}], "disks": [{"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-75WN4A1", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}, {"pc": 6, "name": "QXEE_PC6", "operator": "QXEE_PC6\\Пользователь 2", "collected": "2026-06-02T18:23:17", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M S2H", "motherboard": "Gigabyte Technology Co., Ltd. B450M S2H x.x", "bios": "F50", "cpu": "AMD Ryzen 5 3500X 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 4}], "disks": [{"name": "WDC WD10EZEX-08WN4A0", "gb": 932, "kind": "HDD"}, {"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}, {"pc": 7, "name": "QXEEL_PC7", "operator": "QXEEL_PC7\\Admin", "collected": "2026-06-09T13:35:48", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M DS3H", "motherboard": "Gigabyte Technology Co., Ltd. B450M DS3H-CF x.x", "bios": "not_collected_manual", "cpu": "AMD Ryzen 5 3500X 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 0, "speed": 0, "brand": ""}, {"size": 0, "speed": 0, "brand": ""}], "gpu": [{"name": "NVIDIA Quadro P400", "vram": 2}, {"name": "source: screenshot + analog PC18 driver", "vram": 0}], "disks": [{"name": "WDC WDS240G2G0A-00JH30", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX", "gb": 932, "kind": "HDD"}, {"name": "source: screenshot + typical invoice/analog config", "gb": 0, "kind": "?"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "not_collected_manual"}, {"pc": 8, "name": "AXEL_PC8", "operator": "AXEL_PC8\\user", "collected": "2026-06-04T12:10:20", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "A520M K V2", "motherboard": "Gigabyte Technology Co., Ltd. A520M K V2 x.x", "bios": "F1", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 4}], "disks": [{"name": "KINGSTON SA400S37240G", "gb": 224, "kind": "SSD"}, {"name": "ST1000DM010-2EP102", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19043 64-разрядная", "serial": "Default string"}, {"pc": 9, "name": "AXEL_PC9", "operator": "AXEL_PC9\\user", "collected": "2026-06-04T12:20:06", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M DS3H", "motherboard": "Gigabyte Technology Co., Ltd. B450M DS3H-CF x.x", "bios": "F52", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 24, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX 560 Series", "vram": 2}], "disks": [{"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-75WN4A1", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}, {"pc": 10, "name": "QXEE-PC10", "operator": "QXEE-PC10\\user", "collected": "2026-06-04T12:11:00", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "A520M K V2", "motherboard": "Gigabyte Technology Co., Ltd. A520M K V2 x.x", "bios": "F1", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 4}], "disks": [{"name": "KINGSTON SA400S37240G", "gb": 224, "kind": "SSD"}, {"name": "ST1000DM010-2EP102", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19043 64-разрядная", "serial": "Default string"}, {"pc": 11, "name": "AXEL_PC11", "operator": "AXEL_PC11\\Админ", "collected": "2026-06-04T12:06:30", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M DS3H V2", "motherboard": "Gigabyte Technology Co., Ltd. B450M DS3H V2 x.x", "bios": "F1", "cpu": "AMD Ryzen 5 3500X 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 2}], "disks": [{"name": "WDC WDS240G2G0A-00JH30", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-22MFCA0", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}, {"pc": 12, "name": "QXEE-PC12", "operator": "QXEE-PC12\\user", "collected": "2026-06-04T12:05:39", "manufacturer": "Micro-Star International Co., Ltd.", "model": "MS-7B89", "motherboard": "Micro-Star International Co., Ltd. B450M MORTAR MAX (MS-7B89) 1.0", "bios": "2.H2", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 32, "ram": [{"size": 8, "speed": 2933, "brand": "Kingston"}, {"size": 8, "speed": 2933, "brand": "Kingston"}, {"size": 8, "speed": 2933, "brand": "Kingston"}, {"size": 8, "speed": 2933, "brand": "Kingston"}], "gpu": [{"name": "NVIDIA GeForce GTX 760", "vram": 4}], "disks": [{"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-00BBHA0", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Корпоративная LTSC 10.0.19044 64-разрядная", "serial": "To be filled by O.E.M."}, {"pc": 13, "name": "QXEE_PC13", "operator": "QXEE_PC13\\Professional", "collected": "2026-06-04T12:04:49", "manufacturer": "Micro-Star International Co., Ltd.", "model": "MS-7B89", "motherboard": "Micro-Star International Co., Ltd. B450M MORTAR MAX (MS-7B89) 1.0", "bios": "2.G0", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 32, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "NVIDIA GeForce GTX 760", "vram": 4}], "disks": [{"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-00BBHA0", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 IoT Корпоративная LTSC 10.0.19044 64-разрядная", "serial": "To be filled by O.E.M."}, {"pc": 14, "name": "DESKTOP-V6ATV94", "operator": "DESKTOP-V6ATV94\\Qxee", "collected": "2026-06-04T12:02:07", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "A520M K V2", "motherboard": "Gigabyte Technology Co., Ltd. A520M K V2 x.x", "bios": "F1", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 4}], "disks": [{"name": "ST1000DM010-2EP102", "gb": 932, "kind": "HDD"}, {"name": "ADATA SU630", "gb": 224, "kind": "SSD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}, {"pc": 15, "name": "WIN-JTBMVUAF4GG", "operator": "WIN-JTBMVUAF4GG\\user", "collected": "2026-06-04T12:07:55", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "A520M K V2", "motherboard": "Gigabyte Technology Co., Ltd. A520M K V2 x.x", "bios": "F1", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "Radeon RX550/550 Series", "vram": 4}], "disks": [{"name": "ST1000DM010-2EP102", "gb": 932, "kind": "HDD"}, {"name": "KINGSTON SA400S37240G", "gb": 224, "kind": "SSD"}], "os": "Майкрософт Windows 10 Pro 10.0.19043 64-разрядная", "serial": "Default string"}, {"pc": 16, "name": "QXEE-PC16", "operator": "QXEE-PC16\\Professional", "collected": "2026-06-04T12:12:39", "manufacturer": "Micro-Star International Co., Ltd.", "model": "MS-7B89", "motherboard": "Micro-Star International Co., Ltd. B450M MORTAR MAX (MS-7B89) 1.0", "bios": "2.G0", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 32, "ram": [{"size": 16, "speed": 2667, "brand": "Kingston"}, {"size": 16, "speed": 2667, "brand": "Kingston"}], "gpu": [{"name": "NVIDIA GeForce GTX 760", "vram": 4}], "disks": [{"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-00BBHA0", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Корпоративная LTSC 10.0.19044 64-разрядная", "serial": "To be filled by O.E.M."}, {"pc": 17, "name": "QXEE-PC17", "operator": "QXEE-PC17\\user", "collected": "2026-06-04T12:14:27", "manufacturer": "Micro-Star International Co., Ltd.", "model": "MS-7B89", "motherboard": "Micro-Star International Co., Ltd. B450M MORTAR MAX (MS-7B89) 1.0", "bios": "2.G0", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 8, "ram": [{"size": 8, "speed": 3466, "brand": "Kingston"}], "gpu": [{"name": "NVIDIA GeForce GTX 760", "vram": 4}], "disks": [{"name": "Seagate BUP Slim SL SCSI Disk Device", "gb": 932, "kind": "HDD"}, {"name": "WDC WDS240G2G0B-00EPW0", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-00BBHA0", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "To be filled by O.E.M."}, {"pc": 18, "name": "QXEE_PC18", "operator": "qxee", "collected": "2026-06-08T00:00:00", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M DS3H V2", "motherboard": "Gigabyte Technology Co., Ltd. B450M DS3H V2", "bios": "F1", "cpu": "AMD Ryzen 5 3500X 6-Core Processor", "ram_gb": 16, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}, {"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "AMD Radeon RX 550", "vram": 2}], "disks": [{"name": "SATA SSD", "gb": 240, "kind": "SSD"}, {"name": "HDD", "gb": 1000, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}, {"pc": 19, "name": "DESKTOP-J0IL1JM", "operator": "DESKTOP-J0IL1JM\\qxee", "collected": "2026-06-08T15:15:11", "manufacturer": "Gigabyte Technology Co., Ltd.", "model": "B450M DS3H", "motherboard": "Gigabyte Technology Co., Ltd. B450M DS3H-CF x.x", "bios": "F52", "cpu": "AMD Ryzen 5 3600 6-Core Processor", "ram_gb": 8, "ram": [{"size": 8, "speed": 2400, "brand": "Kingston"}], "gpu": [{"name": "NVIDIA Quadro P400", "vram": 2}], "disks": [{"name": "WDC WDS240G2G0A-00JH30", "gb": 224, "kind": "SSD"}, {"name": "WDC WD10EZEX-00BBHA0", "gb": 932, "kind": "HDD"}], "os": "Майкрософт Windows 10 Pro 10.0.19045 64-разрядная", "serial": "Default string"}], LAYOUT={"rooms": [{"id": "503", "x": 40, "y": 95, "w": 560, "h": 335}, {"id": "—", "x": 600, "y": 95, "w": 320, "h": 335, "empty": true}, {"id": "409", "x": 920, "y": 95, "w": 360, "h": 335}, {"id": "408", "x": 40, "y": 430, "w": 560, "h": 370}, {"id": "410", "x": 600, "y": 430, "w": 320, "h": 370}, {"id": "412", "x": 920, "y": 430, "w": 360, "h": 370}], "desks": [{"pc": 1, "person": "Антон К.", "x": 222, "y": 185, "laptop": true}, {"pc": 2, "person": "Кирилл П.", "x": 312, "y": 185, "laptop": true}, {"pc": 3, "person": "Катя П.", "x": 262, "y": 280}, {"pc": 4, "person": "Дима В.", "x": 858, "y": 714}, {"pc": 5, "person": "Илья Ч.", "x": 690, "y": 714}, {"pc": 6, "person": "Даня Я.", "x": 660, "y": 612}, {"pc": 7, "person": "Дима К.", "x": 820, "y": 612}, {"pc": 8, "person": "Вика (общий)", "x": 262, "y": 505}, {"pc": 9, "person": "Влад", "x": 150, "y": 662}, {"pc": 10, "person": "Магомед", "x": 272, "y": 662}, {"pc": 11, "person": "Вероника С.", "x": 150, "y": 714}, {"pc": 12, "person": "Илья Ш.", "x": 272, "y": 714}, {"pc": 13, "person": "Сергей", "x": 468, "y": 714}, {"pc": 14, "person": "Общий", "x": 468, "y": 662}, {"pc": 15, "person": "Даня Д.", "x": 1000, "y": 300}, {"pc": 16, "person": "Шамиль С.", "x": 1170, "y": 372}, {"pc": 17, "person": "Влад Д.", "x": 1115, "y": 170}, {"pc": 18, "person": "Рома Герасимов", "x": 1190, "y": 170}, {"pc": 19, "person": "Не назначен", "x": 1085, "y": 600}]}, AUTH_HASH="ac052820266f6ce20e842064795e87d93a1a61b09f8b7196ee23d8ee6b00a154", W=1340,H=900;
+const INITIAL_STATE = {};
+const STATUSES={ok:{l:"Норма",hex:"#34D399"},watch:{l:"Наблюдение",hex:"#FBBF24"},upgrade:{l:"Апгрейд",hex:"#FB923C"},critical:{l:"Критично",hex:"#F87171"},nodata:{l:"Нет данных",hex:"#6B7280"}};
+const ORDER=["critical","upgrade","watch","ok","nodata"];
+const TAGS={server:{l:"Рабочий сервер",e:"🗄️",s:"SRV"},laptop:{l:"Ноутбук",e:"💻",s:"NB"},shared:{l:"Общий ПК",e:"👥",s:"ОБЩ"},bench:{l:"Тестовый стенд",e:"🧪",s:"СТЕНД"},workstation:{l:"Рабочая станция",e:"🖥️",s:"WS"}};
+const AVATARS=["auto","👷","🧑‍💻","👩‍💻","🛠️","📐","🏗️","🗄️","🖥️","🧑‍🔧","👨‍💼","🦊"];
+const DEF_PRICE={ram16:3500,ram32:6500,ram64:13000,cpu5600:11000,cpu5700x:14000,cpu5800x3d:26000,nvme512:4200,nvme1tb:7000,nvme2tb:12000,satassd1tb:5500,gpu6600:25000,gpu7600:27000,gpu4060:33000,gpu3060:28000,gpu4060ti16:48000,psu650:6000};
+const PRICE_LBL={ram16:"ОЗУ 16 ГБ (2×8 DDR4-3200)",ram32:"ОЗУ 32 ГБ (2×16 DDR4-3200)",ram64:"ОЗУ 64 ГБ (2×32 DDR4-3200)",cpu5600:"CPU Ryzen 5 5600",cpu5700x:"CPU Ryzen 7 5700X",cpu5800x3d:"CPU Ryzen 7 5800X3D",nvme512:"NVMe SSD 512 ГБ",nvme1tb:"NVMe SSD 1 ТБ",nvme2tb:"NVMe SSD 2 ТБ",satassd1tb:"SATA SSD 1 ТБ",gpu6600:"GPU Radeon RX 6600 8 ГБ",gpu7600:"GPU Radeon RX 7600 8 ГБ",gpu4060:"GPU GeForce RTX 4060 8 ГБ",gpu3060:"GPU GeForce RTX 3060 12 ГБ",gpu4060ti16:"GPU GeForce RTX 4060 Ti 16 ГБ",psu650:"Блок питания 650 Вт 80+ Bronze"};
+const RAM_OPTS=[["ram16","16 ГБ"],["ram32","32 ГБ"],["ram64","64 ГБ"]];
+const CPU_OPTS=[["cpu5600","Ryzen 5 5600 (6 ядер)"],["cpu5700x","Ryzen 7 5700X (8 ядер)"],["cpu5800x3d","Ryzen 7 5800X3D (8 ядер, 3D-кэш)"]];
+const SSD_OPTS=[["nvme512","NVMe 512 ГБ"],["nvme1tb","NVMe 1 ТБ"],["nvme2tb","NVMe 2 ТБ"],["satassd1tb","SATA SSD 1 ТБ"]];
+const GPU_OPTS=[["gpu6600","RX 6600 8 ГБ"],["gpu7600","RX 7600 8 ГБ"],["gpu4060","RTX 4060 8 ГБ"],["gpu3060","RTX 3060 12 ГБ"],["gpu4060ti16","RTX 4060 Ti 16 ГБ"]];
+const CPU_NAME={cpu5600:"AMD Ryzen 5 5600",cpu5700x:"AMD Ryzen 7 5700X",cpu5800x3d:"AMD Ryzen 7 5800X3D"};
+
+const byPc={}; PCS.forEach(p=>byPc[p.pc]=p);
+let UNITS=LAYOUT.desks.map(d=>({...d,inv:byPc[d.pc]||null}));
+function defTag(u){if(u.pc===4)return"server";if(u.laptop)return"laptop";if(/общий|вика/i.test(u.person||""))return"shared";return"";}
+
+// ===== platform detection =====
+function chipsetOf(inv){const m=((inv&&inv.motherboard)||"")+" "+((inv&&inv.model)||"");const cs=["X670","B650","X570","B550","X470","B450","A520","A320","X299","Z790","B760","Z690"].find(c=>new RegExp(c,"i").test(m));return cs||"";}
+function socketOf(inv){const cs=chipsetOf(inv);if(/X299|Z790|B760|Z690/i.test(cs))return"LGA(Intel)";if(/X670|B650/i.test(cs))return"AM5";return"AM4";}
+function dimmSlots(inv){const mb=((inv&&inv.motherboard)||"")+" "+((inv&&inv.model)||"");if(/X299/i.test(mb))return 8;if(/MORTAR|MS-7B89/i.test(mb))return 4;if(/DS3H-CF/i.test(mb))return 4;if(/DS3H V2/i.test(mb))return 2;if(/DS3H/i.test(mb))return 4;if(/S2H|A520M/i.test(mb))return 2;return 2;}
+function searchUrl(component){const q=encodeURIComponent(component);return{dns:`https://www.dns-shop.ru/search/?q=${q}`,ym:`https://market.yandex.ru/search?text=${q}`,ozon:`https://www.ozon.ru/search/?text=${q}`,tc:`https://topcomputer.ru/catalogsearch/result/?q=${q}`};}
+function priceLinks(component){const u=searchUrl(component);return`<span class="plinks"><a href="${u.dns}" target="_blank" rel="noopener" title="DNS">DNS</a><a href="${u.ym}" target="_blank" rel="noopener" title="Яндекс.Маркет">Я.Маркет</a><a href="${u.ozon}" target="_blank" rel="noopener" title="Ozon">Ozon</a><a href="${u.tc}" target="_blank" rel="noopener" title="TopComputer">TopComp</a></span>`;}
+const SEARCH_NAMES={ram16:"DDR4 2x8GB 3200MHz",ram32:"DDR4 2x16GB 3200MHz",ram64:"DDR4 2x32GB 3200MHz",cpu5600:"AMD Ryzen 5 5600 AM4",cpu5700x:"AMD Ryzen 7 5700X AM4",cpu5800x3d:"AMD Ryzen 7 5800X3D AM4",nvme512:"NVMe SSD 512GB M.2",nvme1tb:"NVMe SSD 1TB M.2",nvme2tb:"NVMe SSD 2TB M.2",satassd1tb:"SATA SSD 1TB 2.5",gpu6600:"Radeon RX 6600 8GB",gpu7600:"Radeon RX 7600 8GB",gpu4060:"GeForce RTX 4060 8GB",gpu3060:"GeForce RTX 3060 12GB",gpu4060ti16:"GeForce RTX 4060 Ti 16GB",psu650:"Блок питания 650W 80 Plus Bronze ATX"};
+
+// ===== performance model =====
+function cpuScore(s){s=s||"";if(/5800X3D/i.test(s))return 88;if(/5700X/i.test(s))return 78;if(/5600/i.test(s))return 74;if(/10900X|10900K/i.test(s))return 88;if(/3600/i.test(s))return 52;if(/3500X|3500/i.test(s))return 45;return 40;}
+function gpuScore(s){s=s||"";if(/4060 ?Ti/i.test(s))return 86;if(/6700 ?XT/i.test(s))return 82;if(/RTX ?4060/i.test(s))return 80;if(/3060/i.test(s))return 74;if(/RX ?7600/i.test(s))return 72;if(/RX ?6600/i.test(s))return 70;if(/GTX ?760/i.test(s))return 22;if(/P400|Quadro P4|Quadro K/i.test(s))return 20;if(/RX ?560/i.test(s))return 30;if(/RX ?550/i.test(s))return 25;return 35;}
+function ramScore(g){if(g>=64)return 100;if(g>=48)return 92;if(g>=32)return 85;if(g>=24)return 62;if(g>=16)return 45;if(g>=8)return 18;return 8;}
+function storScore(k){return{hdd:12,sata:58,satabig:64,nvme512:85,nvme1tb:100,nvme2tb:100}[k]||40;}
+function detectStorage(inv){if(!inv)return"sata";const ds=inv.disks||[];const ssd=ds.filter(d=>d.kind==="SSD");if(!ssd.length)return ds.some(d=>d.kind==="HDD")?"hdd":"sata";const nv=ssd.some(d=>/980|970|990|960 ?EVO|SN[0-9]|P31|NV[0-9]|NVMe|PM9/i.test(d.name));const big=ssd.reduce((a,d)=>a+d.gb,0)>=900;return nv?(big?"nvme1tb":"nvme512"):"sata";}
+const WT={ram:.35,cpu:.25,stor:.22,gpu:.18};
+function scoreOf(c){return Math.round(ramScore(c.ram)*WT.ram+cpuScore(c.cpu)*WT.cpu+storScore(c.stor)*WT.stor+gpuScore(c.gpu)*WT.gpu);}
+function band(s){if(s>=75)return{l:"Отлично",hex:"#34D399"};if(s>=55)return{l:"Хорошо",hex:"#7C3AED"};if(s>=38)return{l:"Норма",hex:"#FBBF24"};return{l:"Слабо",hex:"#F87171"};}
+function curConfig(u){const inv=u.inv;return inv?{ram:inv.ram_gb||0,cpu:inv.cpu||"",stor:detectStorage(inv),gpu:(inv.gpu||[]).map(g=>g.name).join(" ")}:{ram:0,cpu:"",stor:"hdd",gpu:""};}
+function planOf(pc){return(store.__plan&&store.__plan[pc])||{};}
+function optOf(){return Object.assign({ram:"ram32",cpu:"cpu5700x",ssd:"nvme1tb",gpu:"gpu6600"},store.__opt||{});}
+function ssdStorKey(id){return id==="satassd1tb"?"satabig":id;}
+function projConfig(u){const c={...curConfig(u)},p=planOf(u.pc),o=optOf(),srv=sTag(u)==="server"||socketOf(u.inv)!=="AM4";
+  if(p.ram)c.ram=Math.max(c.ram,{ram16:16,ram32:32,ram64:64}[o.ram]);
+  if(p.cpu&&!srv)c.cpu=CPU_NAME[o.cpu];
+  if(p.ssd)c.stor=ssdStorKey(o.ssd);
+  if(p.gpu)c.gpu={gpu6600:"RX 6600",gpu7600:"RX 7600",gpu4060:"RTX 4060",gpu3060:"RTX 3060",gpu4060ti16:"RTX 4060 Ti"}[o.gpu];
+  return c;}
+function planItems(u){const p=planOf(u.pc),o=optOf(),srv=sTag(u)==="server"||socketOf(u.inv)!=="AM4",ids=[];
+  if(p.ram)ids.push(o.ram);if(p.cpu&&!srv)ids.push(o.cpu);if(p.ssd)ids.push(o.ssd);if(p.gpu)ids.push(o.gpu);if(p.psu)ids.push("psu650");return ids;}
+function priceOf(id){return(store.__prices&&store.__prices[id]!=null)?store.__prices[id]:DEF_PRICE[id];}
+function planCost(u){return planItems(u).reduce((a,id)=>a+priceOf(id),0);}
+
+// ===== compatibility engine =====
+function compatNotes(u){const inv=u.inv||{},ids=planItems(u),p=planOf(u.pc),notes=[],cs=chipsetOf(inv),soc=socketOf(inv),o=optOf();
+  const oldBios=/(^|[^0-9])F1([^0-9]|$)|not_collected/i.test(inv.bios||"");
+  if(p.cpu){const srv=sTag(u)==="server"||soc!=="AM4";
+    if(srv){notes.push(["bad","Платформа "+(soc==="AM4"?"сервер":soc)+": AM4-процессор Ryzen 5000 сюда не подходит — апгрейд CPU невозможен."]);}
+    else{notes.push(["ok","Сокет AM4 — "+(PRICE_LBL[o.cpu]||"Ryzen 5000")+" подходит."]);
+      notes.push([oldBios?"bad":"warn",oldBios?("BIOS "+(inv.bios||"?")+" устарел — ОБЯЗАТЕЛЬНО обнови до версии с AGESA 1.2.0.0+, иначе ПК не стартует с Ryzen 5000."):("Обнови BIOS ("+(inv.bios||"?")+") до версии с поддержкой Ryzen 5000 перед заменой CPU.")]);
+      if(o.cpu==="cpu5800x3d"&&/A520/i.test(cs))notes.push(["warn","A520 + 8-ядерный X3D: бюджетные цепи питания (VRM) — следи за нагревом под нагрузкой."]);
+    }}
+  if(p.ram){notes.push(["ok","Память DDR4 — соответствует платформе "+(cs||"AM4")+"."]);
+    const mods=(inv.ram||[]).length;
+    if(mods%2!==0||mods===1)notes.push(["warn","Сейчас "+mods+" модул. — ставь матовый комплект 2× (одинаковые планки), а не докупай к старой."]);
+    if(o.ram==="ram64"&&/S2H|A520M K/i.test(inv.motherboard||""))notes.push(["warn","На этой плате 2 слота DIMM: 64 ГБ = 2×32 ГБ."]);}
+  if(p.ssd){if(o.ssd==="satassd1tb")notes.push(["ok","SATA SSD — встанет на любой SATA-порт."]);
+    else notes.push(["ok","Слот M.2 PCIe 3.0 есть — NVMe подходит (диски Gen4 работают на скорости Gen3). Один слот M.2: HDD оставь под архив облаков."]);}
+  if(p.gpu){notes.push(["ok","Слот PCIe x16 — карта встанет (PCIe 3.0 без заметных потерь)."]);
+    const hungry=["gpu4060ti16","gpu3060"].includes(o.gpu);
+    if(hungry&&!p.psu)notes.push(["warn","Для "+(PRICE_LBL[o.gpu])+" нужен БП ≥ 550 Вт с 8-pin — проверь блок питания или добавь его в план."]);
+    else if(p.psu)notes.push(["ok","БП 650 Вт в плане — питания хватит с запасом."]);
+    else notes.push(["ok","Низкое энергопотребление (~115–135 Вт) — хватит штатного БП ~450–500 Вт."]);
+    if(!p.cpu&&/3500X|3600/i.test(inv.cpu||"")){const m=(inv.cpu.match(/3500X|3600/)||[""])[0];notes.push(["warn","CPU "+m+" может ограничивать мощную карту — для максимума добавь апгрейд CPU."]);}}
+  return notes;}
+function worstLevel(notes){if(notes.some(n=>n[0]==="bad"))return"bad";if(notes.some(n=>n[0]==="warn"))return"warn";return notes.length?"ok":"";}
+const LVLC={ok:"var(--ok)",warn:"var(--upgrade)",bad:"var(--critical)"};const LVLI={ok:"✓",warn:"⚠",bad:"✕"};
+
+// ===== state =====
+const KEY="qxee_assets_v4";let store={};let mem={};let isAdmin=false;
+const saveTag=document.getElementById("savetag");
+function clone(o){return JSON.parse(JSON.stringify(o));}
+async function load(){store=clone(INITIAL_STATE);
+  try{if(window.storage&&window.storage.get){const r=await window.storage.get(KEY,false);if(r&&r.value)store=JSON.parse(r.value);}else{const r=localStorage.getItem(KEY);if(r)store=JSON.parse(r);}}catch(e){}
+  try{if(sessionStorage.getItem("qxee_admin")==="1")isAdmin=true;}catch(e){}mergeAdded();}
+function mergeAdded(){UNITS=LAYOUT.desks.map(d=>({...d,inv:byPc[d.pc]||null}));(store._added||[]).forEach(a=>{byPc[a.pc]=a.inv;UNITS.push({pc:a.pc,person:a.person,x:a.x,y:a.y,inv:a.inv,_custom:true});});}
+let saveT;function persist(){if(!isAdmin)return;clearTimeout(saveT);saveT=setTimeout(async()=>{const s=JSON.stringify(store);try{if(window.storage&&window.storage.set){await window.storage.set(KEY,s,false);}else{localStorage.setItem(KEY,s);}}catch(e){mem=store;}saveTag.classList.add("on");setTimeout(()=>saveTag.classList.remove("on"),1300);},250);}
+function rec(pc){if(!store[pc])store[pc]={};return store[pc];}
+const sName=u=>{const s=store[u.pc];return(s&&s.name!=null)?s.name:u.person;};
+const sTag=u=>{const s=store[u.pc];return(s&&s.tag!=null)?s.tag:defTag(u);};
+const sPos=u=>{const s=store[u.pc];return(s&&s.x!=null)?{x:s.x,y:s.y}:{x:u.x,y:u.y};};
+const sAva=u=>{const s=store[u.pc];return(s&&s.avatar)?s.avatar:"auto";};
+function recompute(){UNITS.forEach(u=>u.an=analyze(u,sTag(u)));}
+const eff=u=>{const s=store[u.pc];return(s&&s.status)?s.status:u.an.auto;};
+function initials(n){const w=(n||"").replace(/[()]/g," ").split(/\s+/).filter(Boolean);return((w[0]||"?")[0]+(w[1]?w[1][0]:"")).toUpperCase();}
+function nameColor(n){let h=0;for(const c of(n||"x"))h=(h*31+c.charCodeAt(0))%360;return`hsl(${h} 55% 52%)`;}
+function avatarGlyph(u){const a=sAva(u),t=sTag(u);if(a&&a!=="auto")return{emoji:a};if(t&&TAGS[t])return{emoji:TAGS[t].e};return{init:initials(sName(u)),bg:nameColor(sName(u))};}
+
+function analyze(u,tag){const inv=u.inv,iss=[],rec=[];let pri=0;
+  if(u.laptop&&!inv)return{issues:[{t:"info",ic:"💻",x:"Ноутбук — данных нет. Внеси конфигурацию вручную."}],rec:[],pri:1,auto:"nodata"};
+  if(!inv||inv.ram_gb===0)return{issues:[{t:"crit",ic:"⚠",x:"Сканирование не завершено / ПК был офлайн — нет данных."}],rec:["Повторить инвентаризацию"],pri:9,auto:"nodata"};
+  const os=inv.os||"",gn=(inv.gpu||[]).map(g=>g.name).join(" "),r=inv.ram_gb;
+  const ssd=(inv.disks||[]).filter(d=>d.kind==="SSD"),hdd=(inv.disks||[]).filter(d=>d.kind==="HDD"),ssdGb=ssd.reduce((a,d)=>a+d.gb,0);
+  if(r<16){iss.push({t:"crit",ic:"🧠",x:"ОЗУ "+r+" ГБ — критически мало (план 32 ГБ для облаков точек)."});rec.push("ОЗУ → 32 ГБ");pri+=5;}
+  else if(r<32){iss.push({t:"upg",ic:"🧠",x:r+" ГБ — ниже плановых 32 ГБ для AutoCAD/ReCap."});rec.push("ОЗУ → 32 ГБ");pri+=3;}
+  if((inv.ram||[]).length===1&&r>0){iss.push({t:"info",ic:"⚟",x:"Один модуль ОЗУ — нет двухканала (потеря в Revit/AutoCAD)."});rec.push("Комплект 2× (двухканал)");pri+=1;}
+  if(ssd.length===0&&hdd.length>0){iss.push({t:"crit",ic:"💾",x:"Нет SSD — облака точек грузятся очень медленно."});rec.push("NVMe SSD 1 ТБ");pri+=3;}
+  else if(ssdGb>0&&ssdGb<480){iss.push({t:"upg",ic:"💾",x:"SSD "+ssdGb+" ГБ — мало под проекты/облака."});rec.push("NVMe SSD 1 ТБ");pri+=1;}
+  if(/SA400|WD Green|SU630|240G|223\.|931/i.test((inv.disks||[]).map(d=>d.name).join(" "))&&ssd.length){iss.push({t:"info",ic:"⚡",x:"SSD класса SATA — NVMe заметно быстрее под облака."});pri+=1;}
+  if(/GTX ?760/i.test(gn)){iss.push({t:"crit",ic:"🎮",x:"GTX 760 (2013) — снята с поддержки Autodesk."});rec.push("GPU → RX 6600 / RTX 4060 (8 ГБ)");pri+=2;}
+  else if(/P400|Quadro P4/i.test(gn)){iss.push({t:"upg",ic:"🎮",x:"Quadro P400 2 ГБ — слабая старая карта, тормозит вьюпорт."});rec.push("GPU → RX 6600 / RTX 4060 (8 ГБ)");pri+=2;}
+  else if(/RX ?5[56]\d|RX550|RX560/i.test(gn)){iss.push({t:"upg",ic:"🎮",x:"GPU начального уровня — слабый вьюпорт в Revit."});rec.push("GPU → RX 6600 / RTX 4060 (8 ГБ)");pri+=1;}
+  if(/3500X|3600/i.test(inv.cpu||"")&&tag!=="server"){iss.push({t:"",ic:"⚙",x:"6 ядер начального уровня — плановый апгрейд до Ryzen 7 5700X."});rec.push("CPU → Ryzen 7 5700X");pri+=1;}
+  if(/Windows 10/i.test(os)){iss.push({t:"info",ic:"🪟",x:"Windows 10 — поддержка завершена 14.10.2025."});rec.push("Миграция на Windows 11");pri+=1;}
+  let auto="ok";if(pri>=8)auto="critical";else if(pri>=4)auto="upgrade";else if(pri>=1)auto="watch";
+  if(tag==="server")auto=pri>=8?"critical":(pri>=4?"upgrade":"ok");
+  return{issues:iss,rec:[...new Set(rec)],pri,auto};}
+
+// ===== filters =====
+let filter=null,query="",view="map",sortKey="pri",sortDir=-1,editMode=false;
+function roomOf(x,y){for(const r of LAYOUT.rooms){if(x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h)return r.id;}return"—";}
+const matches=u=>{if(filter&&eff(u)!==filter)return false;
+  if(query){const inv=u.inv||{},t=sTag(u);const hay=[u.pc,sName(u),inv.name,inv.cpu,(inv.gpu||[]).map(g=>g.name).join(" "),inv.os,inv.model,(t&&TAGS[t]?TAGS[t].l:""),(store[u.pc]&&store[u.pc].note)].join(" ").toLowerCase();if(!hay.includes(query.toLowerCase()))return false;}return true;};
+
+function renderStats(){const c={ok:0,watch:0,upgrade:0,critical:0,nodata:0};let lowram=0,nossd=0;
+  UNITS.forEach(u=>{c[eff(u)]++;const inv=u.inv;if(inv&&inv.ram_gb>0&&inv.ram_gb<32)lowram++;if(inv&&(inv.disks||[]).filter(d=>d.kind==="SSD").length===0&&(inv.disks||[]).length)nossd++;});
+  const cards=[{k:UNITS.length,l:"Рабочих мест",c:"var(--accent)"},{k:c.critical+c.upgrade,l:"Требуют апгрейда",c:"var(--upgrade)",f:"upgrade"},{k:lowram,l:"ОЗУ < 32 ГБ",c:"var(--critical)"},{k:nossd,l:"Без SSD",c:"var(--critical)"},{k:c.ok,l:"В норме",c:"var(--ok)",f:"ok"}];
+  document.getElementById("stats").innerHTML=cards.map(x=>`<div class="stat ${x.f?'click':''}" ${x.f?`data-f="${x.f}"`:''}><div class="bar" style="background:${x.c}"></div><div class="k">${x.k}</div><div class="l">${x.l}</div></div>`).join("");
+  document.querySelectorAll(".stat.click").forEach(el=>el.onclick=()=>{const f=el.dataset.f;filter=(filter===f)?null:f;renderChips();renderAll();});}
+function renderChips(){const c=document.getElementById("chips");c.innerHTML=ORDER.map(k=>{const n=UNITS.filter(u=>eff(u)===k).length;return`<div class="chip ${filter===k?'on':''}" data-k="${k}" style="${filter===k?`background:${STATUSES[k].hex};border-color:transparent;color:#0b0e18`:''}"><span class="dot" style="background:${STATUSES[k].hex}"></span>${STATUSES[k].l} · ${n}</div>`;}).join("");c.querySelectorAll(".chip").forEach(el=>el.onclick=()=>{const k=el.dataset.k;filter=(filter===k)?null:k;renderChips();renderStats();renderAll();});}
+
+function renderMap(){const m=document.getElementById("map");let html="";
+  LAYOUT.rooms.forEach(r=>{html+=`<div class="room ${r.empty?'empty':''}" style="left:${r.x/W*100}%;top:${r.y/H*100}%;width:${r.w/W*100}%;height:${r.h/H*100}%"><span class="rn">${r.id==='—'?'—':'каб. '+r.id}</span></div>`;});
+  UNITS.forEach(u=>{const st=eff(u),hex=STATUSES[st].hex,p=sPos(u),vis=matches(u),t=sTag(u),g=avatarGlyph(u);
+    const av=g.emoji?`<div class="av" style="--st:${hex};background:var(--panel)">${g.emoji}<span class="pcb">${u.pc}</span></div>`:`<div class="av" style="--st:${hex};background:${g.bg}">${g.init}<span class="pcb">${u.pc}</span></div>`;
+    html+=`<div class="desk ${vis?'':'dim'}" data-pc="${u.pc}" style="left:${p.x/W*100}%;top:${p.y/H*100}%">${av}<div class="nm">${escapeHtml(sName(u))}</div>${t&&TAGS[t]?`<div class="tg">${TAGS[t].s}</div>`:''}</div>`;});
+  m.innerHTML=html;m.querySelectorAll(".desk").forEach(bindDesk);}
+function bindDesk(el){const pc=+el.dataset.pc;let sx,sy,ox,oy,moved,downId=null;
+  el.addEventListener("pointerdown",e=>{downId=e.pointerId;moved=false;sx=e.clientX;sy=e.clientY;const p=sPos(UNITS.find(u=>u.pc===pc));ox=p.x;oy=p.y;if(editMode&&isAdmin){el.setPointerCapture(e.pointerId);el.style.transition="none";e.preventDefault();}});
+  el.addEventListener("pointermove",e=>{if(downId===null)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;if(editMode&&isAdmin&&moved){const r=document.getElementById("map").getBoundingClientRect();let nx=ox+dx*(W/r.width),ny=oy+dy*(H/r.height);nx=Math.max(28,Math.min(W-28,nx));ny=Math.max(40,Math.min(H-30,ny));el.style.left=nx/W*100+"%";el.style.top=ny/H*100+"%";el._nx=nx;el._ny=ny;}});
+  el.addEventListener("pointerup",e=>{if(downId===null)return;downId=null;el.style.transition="";if(editMode&&isAdmin){try{el.releasePointerCapture(e.pointerId);}catch(_){}}if(!moved){openDrawer(pc);}else if(editMode&&isAdmin&&el._nx!=null){const s=rec(pc);s.x=Math.round(el._nx);s.y=Math.round(el._ny);persist();el._nx=el._ny=null;}});
+  el.addEventListener("pointercancel",()=>{downId=null;el.style.transition="";});}
+
+function renderTable(){const cols=[["pc","ПК"],["name","Сотрудник"],["room","Каб."],["tag","Роль"],["cpu","CPU"],["ram","ОЗУ"],["gpu","Видео"],["disk","Диски"],["score","Балл"],["pri","Приор."],["st","Статус"]];
+  const rows=UNITS.filter(matches).map(u=>{const inv=u.inv||{},st=eff(u),p=sPos(u),t=sTag(u),sc=scoreOf(curConfig(u)),bd=band(sc);
+    const gpu=(inv.gpu||[]).map(g=>g.name+(g.vram?` ${g.vram}GB`:"")).join(", ")||"—";
+    const ssd=(inv.disks||[]).filter(d=>d.kind==="SSD").reduce((a,d)=>a+d.gb,0),hdd=(inv.disks||[]).filter(d=>d.kind==="HDD").reduce((a,d)=>a+d.gb,0);
+    const disk=[ssd?`SSD ${ssd>=1000?(ssd/1000).toFixed(1)+'TB':ssd+'GB'}`:0,hdd?`HDD ${hdd>=1000?(hdd/1000).toFixed(1)+'TB':hdd+'GB'}`:0].filter(Boolean).join(" + ")||"—";
+    return{u,sv:{pc:u.pc,name:sName(u),room:roomOf(p.x,p.y),tag:t?TAGS[t].l:"",cpu:inv.cpu||"",ram:inv.ram_gb||0,gpu,disk,score:sc,pri:u.an.pri,st:ORDER.indexOf(st)},
+      cells:{pc:`<span class="pcn">${u.pc}</span>`,name:escapeHtml(sName(u)),room:roomOf(p.x,p.y),tag:t?`${TAGS[t].e} ${TAGS[t].l}`:"—",
+        cpu:(inv.cpu||"—").replace(/AMD |Intel\(R\) Core\(TM\) |\d+-Core Processor|CPU @.*/g,"").trim()||"—",
+        ram:inv.ram_gb?`<b style="color:${inv.ram_gb<32?'var(--critical)':'var(--ok)'}">${inv.ram_gb} ГБ</b> <span class="note">${(inv.ram||[]).length}/${dimmSlots(inv)}</span>`:"—",gpu,disk,
+        score:`<b style="color:${bd.hex}">${sc}</b> <span class="note">${bd.l}</span>`,
+        pri:`<span class="pri" style="color:${u.an.pri>=8?'var(--critical)':u.an.pri>=4?'var(--upgrade)':u.an.pri>=1?'var(--watch)':'var(--muted2)'}">${u.an.pri}</span>`,
+        st:`<span class="badge"><span class="dot" style="background:${STATUSES[st].hex}"></span>${STATUSES[st].l}</span>`}};});
+  rows.sort((a,b)=>{const x=a.sv[sortKey],y=b.sv[sortKey];return(x>y?1:x<y?-1:0)*sortDir;});
+  const th=cols.map(([k,l])=>`<th data-k="${k}">${l}${sortKey===k?(sortDir>0?' ▲':' ▼'):''}</th>`).join("");
+  const tb=rows.map(r=>`<tr data-pc="${r.u.pc}">`+cols.map(([k])=>`<td>${r.cells[k]}</td>`).join("")+`</tr>`).join("");
+  const v=document.getElementById("tableView");v.innerHTML=`<table><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`;
+  v.querySelectorAll("th").forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}renderTable();});
+  v.querySelectorAll("tbody tr").forEach(el=>{el.style.cursor="pointer";el.onclick=()=>openDrawer(+el.dataset.pc);});}
+
+// ===== planner =====
+let selPCs=null;
+function defaultSel(){return new Set(UNITS.filter(u=>u.inv&&sTag(u)!=="server").map(u=>u.pc));}
+function renderPlanner(){if(!selPCs)selPCs=defaultSel();const o=optOf();
+  const v=document.getElementById("planView");
+  const presets=[{n:"Только ОЗУ",p:{ram:1}},{n:"ОЗУ + CPU",p:{ram:1,cpu:1}},{n:"ОЗУ + CPU + NVMe",p:{ram:1,cpu:1,ssd:1}},{n:"Всё + видеокарта",p:{ram:1,cpu:1,ssd:1,gpu:1}}];
+  const tgt=[...selPCs].map(pc=>UNITS.find(u=>u.pc===pc)).filter(Boolean);
+  function aggFor(pat){let cost=0,upl=0,n=0;tgt.forEach(u=>{const cur=scoreOf(curConfig(u));store.__plan=store.__plan||{};const saved=store.__plan[u.pc];store.__plan[u.pc]=pat;const prj=scoreOf(projConfig(u));const c=planCost(u);store.__plan[u.pc]=saved;cost+=c;if(cur>0)upl+=(prj-cur)/cur*100;n++;});return{cost,upl:n?upl/n:0,n};}
+  const presetCards=presets.map((ps,i)=>{const a=aggFor(ps.p);const e=a.upl>0?Math.round(a.cost/a.upl):0;return`<div class="pcard" data-preset="${i}"><div class="pn">${ps.n}</div><div class="pm">Средний прирост: <b class="up">+${a.upl.toFixed(0)}%</b><br>Стоимость на ${a.n} ПК: <b>${fmt(a.cost)} ₽</b><br>Цена за 1% прироста: <b>${e?fmt(e):'—'} ₽</b></div></div>`;}).join("");
+  const sel=(label,key,opts)=>`<div class="opt"><span class="ol">${label}</span><select class="fld" data-opt="${key}">${opts.map(([id,t])=>`<option value="${id}" ${o[key]===id?'selected':''}>${t}</option>`).join("")}</select></div>`;
+  const quick=[["nonserver","Кроме сервера"],["all","Все ПК"],["ram16","ОЗУ ≤16 ГБ"],["lt32","ОЗУ <32 ГБ"],["none","Снять все"]];
+  let totCost=0,totUpl=0,totN=0,scAfter=0;const compatRows=[];
+  const rows=UNITS.filter(u=>u.inv).map(u=>{const isSrv=sTag(u)==="server"||socketOf(u.inv)!=="AM4";const cur=scoreOf(curConfig(u)),prj=scoreOf(projConfig(u)),up=cur>0?(prj-cur)/cur*100:0,c=planCost(u),pl=planOf(u.pc),sel2=selPCs.has(u.pc),bC=band(cur),bP=band(prj);
+    if(sel2){totCost+=c;totUpl+=up;totN++;scAfter+=prj;}
+    const notes=compatNotes(u),wl=worstLevel(notes);if(notes.length&&sel2)compatRows.push({u,notes});
+    const tog=(k,lbl,dis)=>`<span class="ctog ${pl[k]?'on':''} ${dis?'dis':''}" data-pc="${u.pc}" data-k="${k}">${lbl}</span>`;
+    return`<tr style="${sel2?'':'opacity:.5'}"><td><input type="checkbox" class="cbx" data-pc="${u.pc}" ${sel2?'checked':''}></td>
+      <td><span class="pcn">${u.pc}</span> ${escapeHtml(sName(u))}${isSrv?' 🗄️':''}</td>
+      <td><b style="color:${bC.hex}">${cur}</b></td>
+      <td>${tog('ram','ОЗУ')}${tog('cpu','CPU',isSrv)}${tog('ssd','SSD')}${tog('gpu','GPU')}${tog('psu','БП')}</td>
+      <td><b style="color:${bP.hex}">${prj}</b> <span class="note">${bP.l}</span></td>
+      <td><span class="up">${up>0?'+'+up.toFixed(0)+'%':'—'}</span></td>
+      <td><b>${c?fmt(c)+' ₽':'—'}</b></td>
+      <td><span class="cmpi" style="color:${wl?LVLC[wl]:'var(--muted2)'}" title="Совместимость">${wl?LVLI[wl]:'·'}</span></td></tr>`;}).join("");
+  const priceEditor=Object.keys(DEF_PRICE).map(id=>`<div class="row" style="align-items:center;margin-bottom:7px"><span style="flex:2;font-size:12.5px">${PRICE_LBL[id]} ${priceLinks(SEARCH_NAMES[id]||PRICE_LBL[id])}</span><input class="fld" style="flex:1" type="number" data-price="${id}" value="${priceOf(id)}" ${isAdmin?'':'disabled'}> <span style="flex:0 0 auto;color:var(--muted2)">₽</span></div>`).join("");
+  const compatHtml=compatRows.length?compatRows.map(cr=>`<div class="cprow"><div class="ch">ПК-${cr.u.pc} · ${escapeHtml(sName(cr.u))} <span class="nb">— ${planItems(cr.u).map(i=>PRICE_LBL[i]).join(" + ")||"нет апгрейдов"}</span></div>${cr.notes.map(n=>`<div class="cnote"><span class="d" style="background:${LVLC[n[0]]}"></span><span>${n[1]}</span></div>`).join("")}</div>`).join(""):`<div class="note">Выбери апгрейды у ПК — здесь появится проверка совместимости с конкретным железом (сокет, чипсет, BIOS, питание).</div>`;
+  // smeta (procurement summary)
+  const smetaMap={};UNITS.filter(u=>u.inv&&selPCs.has(u.pc)).forEach(u=>{planItems(u).forEach(id=>{smetaMap[id]=(smetaMap[id]||0)+1;});});
+  const smetaKeys=Object.keys(smetaMap);let smetaTotal=0;
+  const smetaHtml=smetaKeys.length?smetaKeys.map(id=>{const qty=smetaMap[id],price=priceOf(id),sum=qty*price;smetaTotal+=sum;return`<div class="srow"><span class="sn">${PRICE_LBL[id]} ${priceLinks(SEARCH_NAMES[id]||PRICE_LBL[id])}</span><span class="sq">${qty} шт.</span><span class="sp">× ${fmt(price)} ₽ = <b>${fmt(sum)} ₽</b></span></div>`;}).join("")+`<div class="stot"><span>ИТОГО к закупке</span><span>${fmt(smetaTotal)} ₽</span></div>`:`<div class="note">Включи апгрейды у ПК — здесь появится сводная смета: что купить, сколько штук, итого.</div>`;
+  v.innerHTML=`
+   <div class="planhead"><h3 style="font-size:16px;margin-bottom:4px">🛠 Конструктор апгрейда</h3>
+     <div class="note">Выбери ПК и компоненты — увидишь прирост, стоимость и совместимость. Варианты комплектующих применяются ко всем включённым апгрейдам.</div>
+     <div class="chips" style="margin-top:11px">${quick.map(([k,l])=>`<div class="chip" data-quick="${k}">${l}</div>`).join("")}</div>
+     <div class="gtoggles"><span class="ol" style="font-size:11px;color:var(--muted2);font-weight:700;align-self:center;margin-right:4px">Всем выбранным:</span><button class="gtog" data-gset="ram">🧠 ОЗУ</button><button class="gtog" data-gset="cpu">⚙ CPU</button><button class="gtog" data-gset="ssd">💾 SSD</button><button class="gtog" data-gset="gpu">🎮 GPU</button><button class="gtog" data-gset="psu">⚡ БП</button><button class="gtog" data-gset="all">Всё</button><button class="gtog" data-gclear="1">✕ Снять апгрейды</button></div>
+     <div class="optrow">${sel("Оперативная память","ram",RAM_OPTS)}${sel("Процессор (AM4)","cpu",CPU_OPTS)}${sel("Накопитель","ssd",SSD_OPTS)}${sel("Видеокарта","gpu",GPU_OPTS)}
+       <div class="opt" style="min-width:auto"><span class="ol">Действия</span><div style="display:flex;gap:7px"><button class="btn" id="planCsv">⬇ План CSV</button>${isAdmin?'<button class="btn ghost" id="planClear">Очистить</button>':''}</div></div></div></div>
+   <div style="padding:4px 18px 0"><div class="note" style="font-weight:700;color:var(--muted);margin-bottom:6px">Готовые сценарии (применить к выбранным ПК):</div></div>
+   <div class="presets">${presetCards}</div>
+   <div style="overflow:auto"><table><thead><tr><th></th><th>ПК / сотрудник</th><th>Балл сейчас</th><th>Апгрейды</th><th>Станет</th><th>Прирост</th><th>Цена</th><th>Совмест.</th></tr></thead><tbody>${rows}</tbody></table></div>
+   <div class="compat"><h3 style="font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);margin-bottom:10px">⚙ Проверка совместимости с железом</h3>${compatHtml}</div>
+   <div class="smeta"><h3 style="font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);margin-bottom:10px">📋 Смета закупки</h3>${smetaHtml}</div>
+   <details style="padding:14px 18px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:var(--muted)">💰 Цены на комплектующие (Москва, примерные)${isAdmin?' — можно править':' — только просмотр'}</summary><div style="margin-top:12px;max-width:700px">${priceEditor}</div></details>
+   <div class="totbar"><div class="ti"><span class="tk">${totN}</span><span class="tl">ПК выбрано</span></div><div class="ti"><span class="tk">${fmt(totCost)} ₽</span><span class="tl">Суммарно</span></div><div class="ti"><span class="tk up">+${totN?(totUpl/totN).toFixed(0):0}%</span><span class="tl">Средний прирост</span></div><div class="ti"><span class="tk">${totN?Math.round(scAfter/totN):0}</span><span class="tl">Средний балл после</span></div></div>`;
+  v.querySelectorAll("[data-quick]").forEach(el=>el.onclick=()=>{const k=el.dataset.quick;
+    if(k==="all")selPCs=new Set(UNITS.filter(u=>u.inv).map(u=>u.pc));else if(k==="nonserver")selPCs=defaultSel();
+    else if(k==="ram16")selPCs=new Set(UNITS.filter(u=>u.inv&&u.inv.ram_gb<=16).map(u=>u.pc));
+    else if(k==="lt32")selPCs=new Set(UNITS.filter(u=>u.inv&&u.inv.ram_gb<32).map(u=>u.pc));
+    else if(k==="none")selPCs=new Set();renderPlanner();});
+  v.querySelectorAll(".cbx").forEach(el=>el.onchange=()=>{const pc=+el.dataset.pc;if(el.checked)selPCs.add(pc);else selPCs.delete(pc);renderPlanner();});
+  v.querySelectorAll("select[data-opt]").forEach(s=>s.onchange=()=>{store.__opt=optOf();store.__opt[s.dataset.opt]=s.value;persist();renderPlanner();});
+  v.querySelectorAll(".ctog").forEach(el=>{if(el.classList.contains("dis"))return;el.onclick=()=>{const pc=+el.dataset.pc,k=el.dataset.k;store.__plan=store.__plan||{};store.__plan[pc]=store.__plan[pc]||{};store.__plan[pc][k]=!store.__plan[pc][k];if(!selPCs.has(pc))selPCs.add(pc);persist();renderPlanner();renderStats();};});
+  v.querySelectorAll(".pcard").forEach(el=>el.onclick=()=>{const ps=presets[+el.dataset.preset];store.__plan=store.__plan||{};[...selPCs].forEach(pc=>{const u=UNITS.find(x=>x.pc===pc);const pat={...ps.p};if(sTag(u)==="server"||socketOf(u.inv)!=="AM4")delete pat.cpu;store.__plan[pc]=pat;});persist();renderPlanner();renderStats();});
+  v.querySelectorAll("[data-price]").forEach(el=>el.onchange=()=>{store.__prices=store.__prices||{};store.__prices[el.dataset.price]=+el.value||0;persist();renderPlanner();});
+  const pc=document.getElementById("planClear");if(pc)pc.onclick=()=>{store.__plan={};persist();renderPlanner();renderStats();};
+  document.getElementById("planCsv").onclick=exportPlanCsv;
+  v.querySelectorAll("[data-gset]").forEach(el=>el.onclick=()=>{const k=el.dataset.gset;store.__plan=store.__plan||{};[...selPCs].forEach(pc=>{const u=UNITS.find(x=>x.pc===pc);if(!u||!u.inv)return;const srv=sTag(u)==="server"||socketOf(u.inv)!=="AM4";store.__plan[pc]=store.__plan[pc]||{};if(k==="all"){store.__plan[pc]={ram:1,ssd:1,gpu:1,psu:0};if(!srv)store.__plan[pc].cpu=1;}else if(k==="cpu"){if(!srv)store.__plan[pc].cpu=store.__plan[pc].cpu?0:1;}else{store.__plan[pc][k]=store.__plan[pc][k]?0:1;}});persist();renderPlanner();renderStats();});
+  v.querySelectorAll("[data-gclear]").forEach(el=>el.onclick=()=>{store.__plan=store.__plan||{};[...selPCs].forEach(pc=>{store.__plan[pc]={};});persist();renderPlanner();renderStats();});}
+function fmt(n){return(n||0).toLocaleString("ru-RU");}
+function renderAll(){if(view==="map")renderMap();else if(view==="table")renderTable();else renderPlanner();renderStats();}
+
+// ===== drawer =====
+function openDrawer(pc){const u=UNITS.find(x=>x.pc===pc);const inv=u.inv;const r=rec(pc);const st=eff(u);const t=sTag(u);const g=avatarGlyph(u);const p=sPos(u);
+  const cur=scoreOf(curConfig(u)),bd=band(cur);
+  const av=g.emoji?`<div class="avbig" style="--st:${STATUSES[st].hex};background:var(--panel)">${g.emoji}</div>`:`<div class="avbig" style="--st:${STATUSES[st].hex};background:${g.bg}">${g.init}</div>`;
+  const verdict=(label,good,warn)=>good?`<span class="vs">✓ ${label}</span>`:`<span class="vs ${warn?'warn':'bad'}">✗ ${label}</span>`;
+  let specs="";
+  if(inv){const ssd=(inv.disks||[]).filter(x=>x.kind==="SSD"),hdd=(inv.disks||[]).filter(x=>x.kind==="HDD"),ssdGb=ssd.reduce((a,x)=>a+x.gb,0);
+    const dl=(inv.disks||[]).map(x=>`${x.kind} · ${x.name} · ${x.gb>=1000?(x.gb/1000).toFixed(2)+' ТБ':x.gb+' ГБ'}`).join("<br>")||"—";
+    const rl=(inv.ram||[]).map(x=>`${x.size} ГБ ${x.speed?x.speed+' МГц':''} ${x.brand||''}`).join("<br>");
+    const gpu=(inv.gpu||[]).map(x=>x.name+(x.vram?` · ${x.vram} ГБ`:"")).join("<br>")||"—";
+    const ramOk=inv.ram_gb>=32,gpuOk=!/GTX ?760|RX ?5[56]\d|P400/i.test((inv.gpu||[]).map(x=>x.name).join(" ")),ssdOk=ssdGb>=480;
+    specs=`<div class="spec"><div class="t"><span>Процессор</span><span class="note">${socketOf(inv)} · ${chipsetOf(inv)||'?'}</span></div><div class="m">${inv.cpu}</div></div>`
+     +`<div class="spec"><div class="t"><span>Оперативная память</span>${verdict("≥32 ГБ",ramOk,inv.ram_gb>=24)}</div><div class="m">${inv.ram_gb} ГБ · ${(inv.ram||[]).length} модул. (DDR4)${(()=>{const ts=dimmSlots(inv),us=(inv.ram||[]).length,fr=ts-us;let sb='<span class="slotinfo"><span class="slotbar">';for(let i=0;i<ts;i++)sb+='<i class="'+(i<us?'used':'free')+'"></i>';return sb+'</span>'+us+'/'+ts+' слотов'+(fr>0?' · <b style="color:var(--ok)">'+fr+' свободн.</b>':' · <b style="color:var(--upgrade)">все заняты</b>')+'</span>';})()}</div><div class="s">${rl}</div></div>`
+     +`<div class="spec"><div class="t"><span>Видеокарта</span>${verdict("≥8 ГБ / совр.",gpuOk,false)}</div><div class="m">${gpu}</div></div>`
+     +`<div class="spec"><div class="t"><span>Накопители</span>${verdict("NVMe ≥1 ТБ",ssdOk,ssdGb>0)}</div><div class="m">${ssd.length?`SSD ${ssdGb} ГБ · `:''}${hdd.length?`HDD ${hdd.reduce((a,x)=>a+x.gb,0)} ГБ`:''}</div><div class="s">${dl}</div></div>`
+     +`<div class="spec"><div class="t"><span>Система</span></div><div class="m">${inv.os}</div></div>`
+     +`<div class="spec"><div class="t"><span>Мат. плата / BIOS</span></div><div class="m">${inv.motherboard}</div><div class="s">BIOS ${inv.bios} · ${inv.model}</div></div>`;
+  }else specs=`<div class="spec"><div class="t"><span>Нет данных</span></div><div class="m">Инвентаризация не проводилась</div></div>`;
+  const issues=u.an.issues.map(i=>`<div class="issue ${i.t==='crit'?'crit':i.t==='info'?'info':''}"><span class="ic">${i.ic}</span><span>${i.x}</span></div>`).join("")||`<div class="issue ok"><span class="ic">✓</span><span>Под профиль AEC соответствует.</span></div>`;
+  const recs=u.an.rec.length?`<div class="sec"><h3>План апгрейда</h3>`+u.an.rec.map(x=>`<div class="issue info"><span class="ic">→</span><span>${x}</span></div>`).join("")+`</div>`:"";
+  let editBlock="";
+  if(isAdmin){const sbtns=ORDER.map(k=>`<button class="sbtn ${st===k?'on':''}" data-st="${k}" style="${st===k?`border-color:${STATUSES[k].hex};background:${STATUSES[k].hex}22`:''}"><span class="dot" style="background:${STATUSES[k].hex}"></span>${STATUSES[k].l}</button>`).join("");
+    const avp=AVATARS.map(a=>`<button class="${sAva(u)===a?'on':''}" data-av="${a}">${a==="auto"?"авто":a}</button>`).join("");
+    const tagp=`<button class="tagbtn ${!t?'on':''}" data-tag="">— нет —</button>`+Object.keys(TAGS).map(k=>`<button class="tagbtn ${t===k?'on':''}" data-tag="${k}">${TAGS[k].e} ${TAGS[k].l}</button>`).join("");
+    const logHtml=(r.log||[]).slice().reverse().map(e=>`<div class="logitem"><div class="lt">${e.ts}</div><b>${escapeHtml(e.text)}</b></div>`).join("")||`<div class="note">Записей пока нет.</div>`;
+    editBlock=`<div class="sec"><h3>Сотрудник и роль места</h3><input class="fld" id="nm" placeholder="Имя сотрудника" value="${escapeAttr(sName(u))}" style="margin-bottom:9px"><div class="note" style="margin-bottom:6px">Аватар:</div><div class="pick" id="avp">${avp}</div><div class="note" style="margin:11px 0 6px">Роль / метка:</div><div class="tagrow" id="tagp">${tagp}</div></div>
+      <div class="sec"><h3>Статус оборудования</h3><div class="statusgrid" id="sg">${sbtns}</div><div class="note" style="margin-top:8px">Авто-оценка: <b style="color:${STATUSES[u.an.auto].hex}">${STATUSES[u.an.auto].l}</b> · приоритет ${u.an.pri}.</div></div>
+      <div class="sec"><h3>Дата последней проверки</h3><input class="fld" type="date" id="lc" value="${r.lastChecked||''}"></div>
+      <div class="sec"><h3>Заметка</h3><textarea id="note" rows="3" placeholder="Напр.: заказан комплект ОЗУ 2×16…">${escapeHtml(r.note||'')}</textarea></div>
+      <div class="sec"><h3>Журнал обслуживания</h3><div class="row" style="margin-bottom:10px"><input class="fld" id="logtxt" placeholder="Что сделано / заявка…"><button class="btn p" id="logadd" style="flex:0 0 auto">+ Запись</button></div><div id="loglist">${logHtml}</div></div>
+      <div class="sec"><button class="lnk" id="resetpos">↺ Вернуть место на исходную позицию</button></div>`;
+  }else{const logHtml=(r.log||[]).slice().reverse().map(e=>`<div class="logitem"><div class="lt">${e.ts}</div><b>${escapeHtml(e.text)}</b></div>`).join("");
+    editBlock=`<div class="sec"><h3>Статус</h3><span class="badge"><span class="dot" style="background:${STATUSES[st].hex}"></span>${STATUSES[st].l}</span></div>${r.note?`<div class="sec"><h3>Заметка</h3><div class="note" style="color:var(--text)">${escapeHtml(r.note)}</div></div>`:''}${logHtml?`<div class="sec"><h3>Журнал</h3>${logHtml}</div>`:''}<div class="note">🔒 Редактирование доступно администратору.</div>`;}
+  const d=document.getElementById("drawer");
+  d.innerHTML=`<div class="dh"><div><div class="pcbig">${av} ПК-${pc}</div><div class="who">${escapeHtml(sName(u))} · каб. ${roomOf(p.x,p.y)}${inv?` · ${inv.name}`:''}${t&&TAGS[t]?` · ${TAGS[t].l}`:''}</div></div><button class="close" id="dclose">×</button></div>
+  <div class="db">
+    <div class="sec"><h3>Производительность под AEC</h3><div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-family:'Unbounded';font-weight:800;font-size:26px;color:${bd.hex}">${cur}<span style="font-size:14px;color:var(--muted)"> / 100</span></div><div style="font-weight:700;color:${bd.hex}">${bd.l}</div></div><div class="scorebar"><i style="width:${cur}%;background:${bd.hex}"></i></div><div class="note">Оценка для AutoCAD / Revit / ReCap (ОЗУ 35% · CPU 25% · диск 22% · GPU 18%). Смоделировать апгрейд — во вкладке «Апгрейд».</div></div>
+    <div class="sec"><h3>Диагностика</h3>${issues}</div>${recs}
+    <div class="sec"><h3>Характеристики · сверка с целью</h3>${specs}</div>
+    <div class="sec"><h3>Целевая конфигурация</h3><div class="target"><b>AutoCAD / Revit / ReCap + облака до 20 ГБ:</b><br>• ОЗУ <b>32 ГБ</b> DDR4 &nbsp;• NVMe SSD <b>1 ТБ</b><br>• CPU <b>Ryzen 7 5700X</b> (AM4, план) &nbsp;• GPU <b>8 ГБ</b> (RX 6600 / RTX 4060)</div></div>
+    ${editBlock}
+  </div>`;
+  document.getElementById("dclose").onclick=closeDrawer;
+  if(isAdmin){
+    d.querySelectorAll(".sbtn").forEach(el=>el.onclick=()=>{rec(pc).status=el.dataset.st;persist();openDrawer(pc);renderAll();highlight(pc);});
+    d.querySelectorAll("#avp button").forEach(el=>el.onclick=()=>{rec(pc).avatar=el.dataset.av;persist();openDrawer(pc);renderAll();});
+    d.querySelectorAll("#tagp button").forEach(el=>el.onclick=()=>{rec(pc).tag=el.dataset.tag;recompute();persist();openDrawer(pc);renderAll();});
+    document.getElementById("nm").oninput=e=>{rec(pc).name=e.target.value;persist();const el=document.querySelector(`.desk[data-pc="${pc}"] .nm`);if(el)el.textContent=e.target.value;};
+    document.getElementById("note").oninput=e=>{rec(pc).note=e.target.value;persist();};
+    document.getElementById("lc").onchange=e=>{rec(pc).lastChecked=e.target.value;persist();};
+    document.getElementById("logadd").onclick=()=>{const val=document.getElementById("logtxt").value.trim();if(!val)return;const s=rec(pc);s.log=s.log||[];s.log.push({ts:new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),text:val});persist();openDrawer(pc);};
+    document.getElementById("resetpos").onclick=()=>{const s=rec(pc);delete s.x;delete s.y;persist();renderAll();openDrawer(pc);};
+  }
+  document.getElementById("scrim").classList.add("on");d.classList.add("on");highlight(pc);}
+function closeDrawer(){document.getElementById("drawer").classList.remove("on");document.getElementById("scrim").classList.remove("on");highlight(null);}
+function highlight(pc){document.querySelectorAll(".desk").forEach(el=>el.classList.toggle("sel",+el.dataset.pc===pc));}
+function escapeHtml(s){return(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function escapeAttr(s){return escapeHtml(s).replace(/"/g,"&quot;");}
+
+// ===== add PC =====
+function openAddPc(){if(!isAdmin)return;const rooms=LAYOUT.rooms.filter(r=>r.id!=="—").map(r=>`<option value="${r.id}">каб. ${r.id}</option>`).join("");const maxPc=Math.max(0,...UNITS.map(u=>u.pc));
+  document.getElementById("modalArea").innerHTML=`<div class="modal on"><div class="mc"><div class="mh"><h3>➕ Новое рабочее место</h3><button class="close" id="addClose">×</button></div><div class="mb"><div class="fgrid">
+    <div><label>Номер ПК</label><input class="fld" id="a_pc" type="number" value="${maxPc+1}"></div><div><label>Кабинет</label><select class="fld" id="a_room">${rooms}</select></div>
+    <div class="fwide"><label>Сотрудник</label><input class="fld" id="a_name" placeholder="Имя"></div>
+    <div class="fwide"><label>Процессор</label><input class="fld" id="a_cpu" placeholder="AMD Ryzen 7 5700X 8-Core Processor"></div>
+    <div><label>ОЗУ, ГБ</label><input class="fld" id="a_ram" type="number" placeholder="32"></div><div><label>Модулей ОЗУ</label><input class="fld" id="a_rammod" type="number" value="2"></div>
+    <div class="fwide"><label>Видеокарта</label><input class="fld" id="a_gpu" placeholder="NVIDIA GeForce RTX 4060 8GB"></div>
+    <div><label>SSD, ГБ</label><input class="fld" id="a_ssd" type="number" placeholder="1000"></div><div><label>HDD, ГБ</label><input class="fld" id="a_hdd" type="number" placeholder="0"></div>
+    <div class="fwide"><label>Мат. плата (для совместимости)</label><input class="fld" id="a_mb" placeholder="Gigabyte B450M DS3H"></div>
+    <div class="fwide"><label>ОС</label><input class="fld" id="a_os" value="Windows 11 Pro"></div>
+    <div class="fwide"><label>Роль места</label><select class="fld" id="a_tag"><option value="">— нет —</option>${Object.keys(TAGS).map(k=>`<option value="${k}">${TAGS[k].l}</option>`).join("")}</select></div>
+   </div><button class="btn p" id="addSave" style="margin-top:14px;width:100%;justify-content:center">Добавить ПК на карту</button>
+   <div class="note" style="margin-top:8px">ПК появится в центре кабинета — потом перетащи его в режиме «Расставить».</div></div></div></div>`;
+  document.getElementById("addClose").onclick=closeModal;
+  document.getElementById("addSave").onclick=()=>{const pcn=+document.getElementById("a_pc").value;if(!pcn){alert("Укажи номер ПК");return;}if(UNITS.some(u=>u.pc===pcn)){alert("ПК с таким номером уже есть");return;}
+    const roomId=document.getElementById("a_room").value,room=LAYOUT.rooms.find(r=>r.id===roomId);
+    const ram=+document.getElementById("a_ram").value||0,mods=+document.getElementById("a_rammod").value||1,ssd=+document.getElementById("a_ssd").value||0,hdd=+document.getElementById("a_hdd").value||0;
+    const disks=[];if(ssd)disks.push({name:"SSD",gb:ssd,kind:"SSD"});if(hdd)disks.push({name:"HDD",gb:hdd,kind:"HDD"});
+    const gpuStr=document.getElementById("a_gpu").value.trim(),mb=document.getElementById("a_mb").value.trim();
+    const inv={pc:pcn,name:"PC"+pcn,operator:"",collected:new Date().toISOString(),manufacturer:"",model:mb,motherboard:mb,bios:"",cpu:document.getElementById("a_cpu").value.trim()||"—",ram_gb:ram,ram:Array.from({length:mods},()=>({size:Math.round(ram/mods),speed:0,brand:""})),gpu:gpuStr?[{name:gpuStr,vram:0}]:[],disks,os:document.getElementById("a_os").value.trim(),serial:""};
+    const obj={pc:pcn,person:document.getElementById("a_name").value.trim()||("ПК-"+pcn),x:room.x+room.w/2,y:room.y+room.h/2,inv};
+    store._added=store._added||[];store._added.push(obj);const tag=document.getElementById("a_tag").value;if(tag)rec(pcn).tag=tag;
+    persist();mergeAdded();recompute();closeModal();renderAll();openDrawer(pcn);};}
+function closeModal(){document.getElementById("modalArea").innerHTML="";}
+
+// ===== auth =====
+async function sha256(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+function openLogin(){document.getElementById("modalArea").innerHTML=`<div class="modal on"><div class="mc"><div class="mh"><h3>🔑 Вход администратора</h3><button class="close" id="logClose">×</button></div><div class="mb">
+  <div class="fwide" style="margin-bottom:10px"><label>Логин</label><input class="fld" id="l_user" autocomplete="username"></div>
+  <div class="fwide"><label>Пароль</label><input class="fld" id="l_pass" type="password" autocomplete="current-password"></div>
+  <div class="note" id="l_err" style="color:var(--critical);margin-top:8px;display:none">Неверный логин или пароль</div>
+  <button class="btn p" id="l_go" style="margin-top:14px;width:100%;justify-content:center">Войти</button>
+  <div class="note" style="margin-top:8px">Без входа сайт доступен только для просмотра.</div></div></div></div>`;
+  document.getElementById("logClose").onclick=closeModal;
+  const go=async()=>{const h=await sha256(document.getElementById("l_user").value.trim()+":"+document.getElementById("l_pass").value);if(h===AUTH_HASH){isAdmin=true;try{sessionStorage.setItem("qxee_admin","1");}catch(e){}closeModal();applyAdminUI();renderAll();}else document.getElementById("l_err").style.display="block";};
+  document.getElementById("l_go").onclick=go;document.getElementById("l_pass").onkeydown=e=>{if(e.key==="Enter")go();};}
+function logout(){isAdmin=false;try{sessionStorage.removeItem("qxee_admin");}catch(e){}editMode=false;document.getElementById("map").classList.remove("edit");applyAdminUI();renderAll();closeDrawer();}
+function applyAdminUI(){const a=isAdmin;["editBtn","addBtn","impBtn","pubBtn"].forEach(id=>document.getElementById(id).classList.toggle("hide",!a));const lk=document.getElementById("lockBtn");lk.innerHTML=a?'🔓 Админ ✓ · выйти':'🔑 Войти';lk.classList.toggle("adm",a);}
+
+function download(name,text,type){const b=new Blob([text],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+document.getElementById("expBtn").onclick=()=>download(`qxee_assets_${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({v:4,saved:new Date().toISOString(),store},null,2),"application/json");
+document.getElementById("csvBtn").onclick=()=>{const head=["ПК","Сотрудник","Кабинет","Роль","Статус","Балл","Приоритет","CPU","Сокет","ОЗУ_ГБ","Видеокарта","Диски","ОС","Апгрейд","Стоимость_₽","Проверка","Заметка"];const lines=[head.join(";")];
+  UNITS.forEach(u=>{const inv=u.inv||{},s=store[u.pc]||{},st=eff(u),p=sPos(u),t=sTag(u);const ssd=(inv.disks||[]).filter(d=>d.kind==="SSD").reduce((a,d)=>a+d.gb,0),hdd=(inv.disks||[]).filter(d=>d.kind==="HDD").reduce((a,d)=>a+d.gb,0);
+   const row=[u.pc,sName(u),roomOf(p.x,p.y),t?TAGS[t].l:"",STATUSES[st].l,scoreOf(curConfig(u)),u.an.pri,inv.cpu||"",socketOf(inv),inv.ram_gb||"",(inv.gpu||[]).map(g=>g.name).join(" / "),`SSD ${ssd} / HDD ${hdd}`,inv.os||"",planItems(u).map(i=>PRICE_LBL[i]).join(" + "),planCost(u),s.lastChecked||"",(s.note||"").replace(/[\r\n;]/g," ")];
+   lines.push(row.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(";"));});
+  download(`qxee_status_${new Date().toISOString().slice(0,10)}.csv`,"\ufeff"+lines.join("\n"),"text/csv");};
+function exportPlanCsv(){const head=["ПК","Сотрудник","Балл_сейчас","Балл_после","Прирост_%","Апгрейды","Стоимость_₽","Совместимость"];const lines=[head.join(";")];let tot=0;
+  UNITS.filter(u=>u.inv&&selPCs.has(u.pc)&&planItems(u).length).forEach(u=>{const cur=scoreOf(curConfig(u)),prj=scoreOf(projConfig(u)),c=planCost(u);tot+=c;const notes=compatNotes(u).filter(n=>n[0]!=="ok").map(n=>n[1]).join(" | ");
+   lines.push([u.pc,sName(u),cur,prj,((prj-cur)/cur*100).toFixed(0),planItems(u).map(i=>PRICE_LBL[i]).join(" + "),c,notes||"ок"].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(";"));});
+  lines.push(`"ИТОГО";"";"";"";"";"";"${tot}";""`);download(`qxee_plan_${new Date().toISOString().slice(0,10)}.csv`,"\ufeff"+lines.join("\n"),"text/csv");}
+document.getElementById("impBtn").onclick=()=>{if(!isAdmin)return;document.getElementById("impFile").click();};
+document.getElementById("impFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);store=d.store||d;mergeAdded();recompute();persist();renderAll();alert("Импорт выполнен.");}catch(err){alert("Ошибка: "+err.message);}};rd.readAsText(f);};
+document.getElementById("pubBtn").onclick=()=>{if(!isAdmin)return;const snippet="const INITIAL_STATE = "+JSON.stringify(store)+";";
+  document.getElementById("modalArea").innerHTML=`<div class="modal on"><div class="mc"><div class="mh"><h3>🚀 Опубликовать изменения</h3><button class="close" id="pubClose">×</button></div><div class="mb">
+   <div class="note" style="margin-bottom:10px;line-height:1.6">Правки хранятся в этом браузере. Чтобы их увидели по ссылке:<br>1. Скопируй строку ниже.<br>2. В <b>index.html</b> найди <b>const INITIAL_STATE = {};</b> и замени на эту.<br>3. Закоммить в Git.</div>
+   <textarea class="fld" rows="7" id="pubTxt" readonly>${escapeHtml(snippet)}</textarea>
+   <div class="row" style="margin-top:10px"><button class="btn p" id="pubCopy">📋 Скопировать</button><button class="btn" id="pubDl">⬇ Скачать .txt</button></div></div></div></div>`;
+  document.getElementById("pubClose").onclick=closeModal;
+  document.getElementById("pubCopy").onclick=()=>{const t=document.getElementById("pubTxt");t.select();try{navigator.clipboard.writeText(snippet);}catch(e){document.execCommand("copy");}document.getElementById("pubCopy").textContent="✓ Скопировано";};
+  document.getElementById("pubDl").onclick=()=>download("INITIAL_STATE.txt",snippet,"text/plain");};
+
+document.getElementById("q").oninput=e=>{query=e.target.value;renderAll();};
+document.getElementById("scrim").onclick=closeDrawer;
+document.getElementById("lockBtn").onclick=()=>{if(isAdmin)logout();else openLogin();};
+document.getElementById("addBtn").onclick=openAddPc;
+document.getElementById("editBtn").onclick=function(){if(!isAdmin)return;editMode=!editMode;this.classList.toggle("on",editMode);this.innerHTML=editMode?"✓ Готово":"🔓 Расставить";document.getElementById("map").classList.toggle("edit",editMode);document.getElementById("maplabel").innerHTML=editMode?"<b>Режим расстановки:</b> перетаскивай ПК между кабинетами.":"Клик по месту — карточка. «Расставить» — перетаскивание ПК.";};
+document.querySelectorAll("#seg button").forEach(b=>b.onclick=()=>{view=b.dataset.v;document.querySelectorAll("#seg button").forEach(x=>x.classList.toggle("on",x===b));document.getElementById("mapView").style.display=view==="map"?"":"none";document.getElementById("tableView").style.display=view==="table"?"":"none";document.getElementById("planView").style.display=view==="plan"?"":"none";renderAll();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closeModal();}});
+document.getElementById("foot").innerHTML=`QXEE · ${UNITS.length} рабочих мест · все рабочие ПК на платформе AMD AM4 (DDR4) · сервер — Intel X299<br>Просмотр открыт по ссылке. Изменения сохраняются локально; «Опубликовать» — чтобы перенести их в Git.`;
+(async()=>{await load();recompute();applyAdminUI();renderChips();renderAll();})();
+</script></body></html>
