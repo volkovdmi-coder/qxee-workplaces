@@ -158,6 +158,7 @@ textarea:focus,input.fld:focus,select.fld:focus{border-color:var(--accent)}
   <div class="herosub">Карта рабочих мест · инвентаризация · 5 этаж</div>
 </div>
 <div class="profile"><b>Профиль парка:</b> инженерная компания — обследование и проектирование зданий. ПО: <b>AutoCAD, Revit, Autodesk ReCap</b>, облака точек до <b>20 ГБ</b>. Цель: <b>ОЗУ 32 ГБ</b>, <b>NVMe 1 ТБ</b>, GPU <b>≥ 8 ГБ</b>, плановый CPU — <b>Ryzen 7 5700X</b>. Приоритет — производительность.</div>
+<div class="profile" data-version="FINAL_PC17_24"><b>?????? ??????:</b> 2026-07-06 18:45 ? ??17 = 24 ?? ? FINAL_PC17_24.</div>
 <div class="stats" id="stats"></div>
 <div class="controls"><div class="search"><span style="color:var(--muted2)">🔎</span><input id="q" placeholder="Поиск: имя, ПК, CPU, видеокарта, ОС, роль…"></div>
   <div class="chips" id="chips"></div>
@@ -183,6 +184,8 @@ const GPU_OPTS=[["gpu6600","RX 6600 8 ГБ"],["gpu7600","RX 7600 8 ГБ"],["gpu4
 const CPU_NAME={cpu5600:"AMD Ryzen 5 5600",cpu5700x:"AMD Ryzen 7 5700X",cpu5800x3d:"AMD Ryzen 7 5800X3D"};
 
 const byPc={}; PCS.forEach(p=>byPc[p.pc]=p);
+function fixPc17Inventory(){const p=byPc[17];if(p){p.ram_gb=24;p.ram=[{size:8,speed:3466,brand:"Kingston"},{size:8,speed:2400,brand:"Kingston"},{size:8,speed:2400,brand:"Kingston"}];p.cpu="AMD Ryzen 7 5700X 8-Core Processor";}}
+fixPc17Inventory();
 let UNITS=LAYOUT.desks.map(d=>({...d,inv:byPc[d.pc]||null}));
 function defTag(u){if(u.pc===4)return"server";if(u.laptop)return"laptop";if(/общий|вика/i.test(u.person||""))return"shared";return"";}
 
@@ -256,11 +259,11 @@ const LVLC={ok:"var(--ok)",warn:"var(--upgrade)",bad:"var(--critical)"};const LV
 
 // ===== state =====
 const KEY="qxee_assets_v4";let store={};let mem={};let isAdmin=false;
-const saveTag=document.getElementById("savetag");
+const saveTag=document.getElementById("savetag"); function fixKnownState(){fixPc17Inventory();if(store&&store.__ram&&store.__ram[17])store.__ram[17]={slots:4,mods:"8+8+8"};if(store&&Array.isArray(store._added))store._added=store._added.filter(a=>+a.pc!==17);}
 function clone(o){return JSON.parse(JSON.stringify(o));}
 async function load(){store=clone(INITIAL_STATE);
   try{if(window.storage&&window.storage.get){const r=await window.storage.get(KEY,false);if(r&&r.value)store=JSON.parse(r.value);}else{const r=localStorage.getItem(KEY);if(r)store=JSON.parse(r);}}catch(e){}
-  try{if(sessionStorage.getItem("qxee_admin")==="1")isAdmin=true;}catch(e){}mergeAdded();}
+  try{if(sessionStorage.getItem("qxee_admin")==="1")isAdmin=true;}catch(e){}fixKnownState();mergeAdded();}
 function mergeAdded(){UNITS=LAYOUT.desks.map(d=>({...d,inv:byPc[d.pc]||null}));(store._added||[]).forEach(a=>{byPc[a.pc]=a.inv;UNITS.push({pc:a.pc,person:a.person,x:a.x,y:a.y,inv:a.inv,_custom:true});});}
 let saveT;function persist(){if(!isAdmin)return;clearTimeout(saveT);saveT=setTimeout(async()=>{const s=JSON.stringify(store);try{if(window.storage&&window.storage.set){await window.storage.set(KEY,s,false);}else{localStorage.setItem(KEY,s);}}catch(e){mem=store;}saveTag.classList.add("on");setTimeout(()=>saveTag.classList.remove("on"),1300);},250);}
 function rec(pc){if(!store[pc])store[pc]={};return store[pc];}
